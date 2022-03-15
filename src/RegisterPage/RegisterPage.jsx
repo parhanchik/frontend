@@ -1,6 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import validator from 'validator'
+
 
 import { userActions } from '../_actions';
 
@@ -10,10 +12,6 @@ class RegisterPage extends React.Component {
 
         this.state = {
             user: {
-//                firstName: '',
-//                lastName: '',
-//                username: '',
-//                password: ''
                 email: '',
                 password: '',
                 passport: {
@@ -29,16 +27,31 @@ class RegisterPage extends React.Component {
                     birthdate: ''
             },
             },
-            submitted: false
+            submitted: false,
+            isPasswordShown: false,
+            confirmPass: ''
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    validate(value) {
+
+        if (validator.isStrongPassword(value, {
+            minLength: 8, minLowercase: 1,
+            minUppercase: 1, minNumbers: 1, minSymbols: 1
+        })) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
     handleChange(event) {
         const { name, value } = event.target;
-        const { user } = this.state;
+        const { user, confirmPass } = this.state;
         this.setState({
             user: {
                 ...user,
@@ -48,6 +61,10 @@ class RegisterPage extends React.Component {
                         ...user.passport,
                         [name]: value,
                     }
+            },
+            confirmPass:{
+                ...confirmPass,
+                [name]: value
             }
         });
     }
@@ -56,21 +73,31 @@ class RegisterPage extends React.Component {
         event.preventDefault();
 
         this.setState({ submitted: true });
-        const { user } = this.state;
+        const { user, confirmPass } = this.state;
+
+
+
         if (user.email && user.password
             && user.passport.series && user.passport.number
             && user.passport.firstName && user.passport.middleName
             && user.passport.lastName && user.passport.issuedBy
             && user.passport.issuedAt && user.passport.address
-            && user.passport.birthplace && user.passport.birthdate) {
+            && user.passport.birthplace && user.passport.birthdate && confirmPass) {
 
                 this.props.register(user);
         }
     }
 
+    togglePasswordVisiblity = () => {
+        const { isPasswordShown } = this.state;
+        this.setState({ isPasswordShown: !isPasswordShown });
+    };
+
     render() {
+
+
         const { registering  } = this.props;
-        const { user, submitted } = this.state;
+        const { user, submitted, isPasswordShown, confirmPass } = this.state;
         return (
             <div className="col-md-6 col-md-offset-3">
                 <h2>Register</h2>
@@ -82,11 +109,22 @@ class RegisterPage extends React.Component {
                             <div className="help-block">Email is required</div>
                         }
                     </div>
-                    <div className={'form-group' + (submitted && !user.password ? ' has-error' : '')}>
+                    <div className={'wrap-input100 validate-input form-group' + (submitted && !user.password ? ' has-error' : '')}>
                         <label htmlFor="password">Password</label>
-                        <input type="password" className="form-control" name="password" value={user.password} onChange={this.handleChange} />
+                        <input type={isPasswordShown ? "text" : "password"} className="form-control" name="password" value={user.password} onChange={this.handleChange} />
+                        <i className="fa fa-eye password-icon" onClick={this.togglePasswordVisiblity}/>
                         {submitted && !user.password &&
                             <div className="help-block">Password is required</div>
+                        }
+                        {submitted && !this.validate(user.password) &&
+                            <div className="help-block">Password is not strong</div>
+                        }
+                    </div>
+                    <div className={'wrap-input100 validate-input form-group' + (submitted && !confirmPass ? ' has-error' : '')}>
+                        <label htmlFor="confirmpassword">Password</label>
+                        <input type={isPasswordShown ? "text" : "password"} className="form-control" name="confirmpassword" value={confirmPass} onChange={this.handleChange} />
+                        {submitted && confirmPass && user.password!=confirmPass &&
+                            <div className="help-block">Password not same</div>
                         }
                     </div>
                     <div className={'form-group' + (submitted && !user.passport.series ? ' has-error' : '')}>
@@ -104,57 +142,57 @@ class RegisterPage extends React.Component {
                         }
                     </div>
                     <div className={'form-group' + (submitted && !user.passport.firstName ? ' has-error' : '')}>
-                        <label htmlFor="firstName">firstName</label>
+                        <label htmlFor="firstName">First Name</label>
                         <input type="text" className="form-control" name="firstName" value={user.passport.firstName} onChange={this.handleChange} />
                         {submitted && !user.passport.firstName &&
-                            <div className="help-block">FirstName is required</div>
+                            <div className="help-block">First Name is required</div>
                         }
                     </div>
                     <div className={'form-group' + (submitted && !user.passport.middleName ? ' has-error' : '')}>
-                        <label htmlFor="middleName">middleName</label>
+                        <label htmlFor="middleName">Middle Name</label>
                         <input type="text" className="form-control" name="middleName" value={user.passport.middleName} onChange={this.handleChange} />
                         {submitted && !user.passport.middleName &&
-                            <div className="help-block">MiddleName is required</div>
+                            <div className="help-block">Middle Name is required</div>
                         }
                     </div>
                     <div className={'form-group' + (submitted && !user.passport.lastName ? ' has-error' : '')}>
-                        <label htmlFor="lastName">lastName</label>
+                        <label htmlFor="lastName">Last Name</label>
                         <input type="text" className="form-control" name="lastName" value={user.passport.lastName} onChange={this.handleChange} />
                         {submitted && !user.passport.lastName &&
-                            <div className="help-block">LastName is required</div>
+                            <div className="help-block">Last Name is required</div>
                         }
                     </div>
                     <div className={'form-group' + (submitted && !user.passport.issuedBy ? ' has-error' : '')}>
-                        <label htmlFor="issuedBy">issuedBy</label>
+                        <label htmlFor="issuedBy">Issued By</label>
                         <input type="text" className="form-control" name="issuedBy" value={user.passport.issuedBy} onChange={this.handleChange} />
                         {submitted && !user.passport.issuedBy &&
-                            <div className="help-block">IssuedBy is required</div>
+                            <div className="help-block">Issued By is required</div>
                         }
                     </div>
                     <div className={'form-group' + (submitted && !user.passport.issuedAt ? ' has-error' : '')}>
-                        <label htmlFor="issuedAt">issuedAt</label>
-                        <input type="text" className="form-control" name="issuedAt" value={user.passport.issuedAt} onChange={this.handleChange} />
+                        <label htmlFor="issuedAt">Issued At</label>
+                        <input type="date" className="form-control" name="issuedAt" value={user.passport.issuedAt} onChange={this.handleChange} />
                         {submitted && !user.passport.issuedAt &&
-                            <div className="help-block">IssuedAt is required</div>
+                            <div className="help-block">Issued At is required</div>
                         }
                     </div>
                     <div className={'form-group' + (submitted && !user.passport.address ? ' has-error' : '')}>
-                        <label htmlFor="address">address</label>
+                        <label htmlFor="address">Address</label>
                         <input type="text" className="form-control" name="address" value={user.passport.address} onChange={this.handleChange} />
                         {submitted && !user.passport.address &&
                             <div className="help-block">Address is required</div>
                         }
                     </div>
                     <div className={'form-group' + (submitted && !user.passport.birthplace ? ' has-error' : '')}>
-                        <label htmlFor="birthplace">birthplace</label>
+                        <label htmlFor="birthplace">Birthplace</label>
                         <input type="text" className="form-control" name="birthplace" value={user.passport.birthplace} onChange={this.handleChange} />
                         {submitted && !user.passport.birthplace &&
                             <div className="help-block">Birthplace is required</div>
                         }
                     </div>
                     <div className={'form-group' + (submitted && !user.passport.birthdate ? ' has-error' : '')}>
-                        <label htmlFor="birthdate">birthdate</label>
-                        <input type="text" className="form-control" name="birthdate" value={user.passport.birthdate} onChange={this.handleChange} />
+                        <label htmlFor="birthdate">Birthdate</label>
+                        <input type="date" className="form-control" name="birthdate" value={user.passport.birthdate} onChange={this.handleChange} />
                         {submitted && !user.passport.birthdate &&
                             <div className="help-block">Birthdate is required</div>
                         }

@@ -33,8 +33,6 @@ class ConfirmPage extends React.Component {
         const { username, password, code } = this.state;
         if (username && password && code){
             this.props.confirm(username,password, code);
-        //if (username && password) {
-        //    this.props.login(username, password);
         }
     }
 

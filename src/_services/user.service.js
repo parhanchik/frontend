@@ -84,28 +84,6 @@ function register(user) {
 
 
     return fetch(`${config.apiUrl}/v1/auth/sign-up`, requestOptions).then(handleResponse);
-
-
-/*    const date = new proto.google.protobuf.Timestamp();
-    date.fromDate(new Date());
-
-    const pass = new Passport();
-    pass.setSeries('4000');
-    pass.setNumber('000000');
-    pass.setFirstname('Ivan');
-    pass.setMiddlename('Ivanovich');
-    pass.setLastname('Ivanov');
-    pass.setIssuedby('FMS');
-    pass.setIssuedat(date);
-    pass.setAddress('qqq');
-    pass.setBirthplace('SPB');
-    pass.setBirthdate(date);
-    const req = new SignUpRequest();
-    req.setEmail('email@email.com');
-    req.setPassword('12345678');
-    req.setPassport(pass);
-    return client.signUp(req, null, null);
- */
 }
 
 
