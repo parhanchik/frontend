@@ -1,11 +1,11 @@
 syntax = "proto3";
 
-//package profile_pb;
+package profile_pb;
 
-//option go_package = "/profile;profile";
+option go_package = "/profile;profile";
 
-//import "google/api/annotations.proto";
-//import "protoc-gen-openapiv2/options/annotations.proto";
+import "google/api/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
 

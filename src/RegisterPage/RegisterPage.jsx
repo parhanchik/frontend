@@ -40,7 +40,6 @@ class RegisterPage extends React.Component {
     }
 
     validate(value) {
-        //alert(value);
         if (!value) return false;
 
         if (validator.isStrongPassword(value, {
@@ -48,9 +47,7 @@ class RegisterPage extends React.Component {
             minUppercase: 1, minNumbers: 1, minSymbols: 1
         })) {
             return true;
-            //alert("YES");
         } else {
-            //alert("NO");
             return false;
         }
     }
@@ -82,31 +79,13 @@ class RegisterPage extends React.Component {
                 [name]: value
             }
         });
-
-
-
-        //else {this.setState({ isPasswordStrong: true });}
-        //else {return;}
-
-        //this.setState({confirmPass: {...confirmPass, [name]:value}})
     }
-
-    //handleChange1(event) {
-    //    const { name, value } = event.target;
-    //    const { confirmPass } = this.state;
-    //    this.setState({confirmPass: {...confirmPass, [name]:value}})
-    //}
-
 
     handleSubmit(event) {
         event.preventDefault();
 
         this.setState({ submitted: true });
         const { user, confirmPass, isPasswordStrong } = this.state;
-
-        //if (user.password && this.validate(user.password))
-        //{this.setState({ isPasswordStrong: true });}
-        //else {return;}
 
         if (user.email && user.password
             && user.passport.series && user.passport.number
