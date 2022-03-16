@@ -25,11 +25,14 @@ class RegisterPage extends React.Component {
                     address: '',
                     birthplace: '',
                     birthdate: ''
-            },
+                },
             },
             submitted: false,
             isPasswordShown: false,
-            confirmPass: ''
+            confirmPass: {
+                confPass: ''
+            },
+            isPasswordStrong: false,
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -37,13 +40,17 @@ class RegisterPage extends React.Component {
     }
 
     validate(value) {
+        //alert(value);
+        if (!value) return false;
 
         if (validator.isStrongPassword(value, {
             minLength: 8, minLowercase: 1,
             minUppercase: 1, minNumbers: 1, minSymbols: 1
         })) {
             return true;
+            //alert("YES");
         } else {
+            //alert("NO");
             return false;
         }
     }
@@ -52,6 +59,14 @@ class RegisterPage extends React.Component {
     handleChange(event) {
         const { name, value } = event.target;
         const { user, confirmPass } = this.state;
+
+        if (name === "password")
+        {
+            if (this.validate(value))
+            {this.setState({ isPasswordStrong: true });}
+            else {this.setState({ isPasswordStrong: false });}
+
+        }
         this.setState({
             user: {
                 ...user,
@@ -62,27 +77,44 @@ class RegisterPage extends React.Component {
                         [name]: value,
                     }
             },
-            confirmPass:{
+            confirmPass: {
                 ...confirmPass,
                 [name]: value
             }
         });
+
+
+
+        //else {this.setState({ isPasswordStrong: true });}
+        //else {return;}
+
+        //this.setState({confirmPass: {...confirmPass, [name]:value}})
     }
+
+    //handleChange1(event) {
+    //    const { name, value } = event.target;
+    //    const { confirmPass } = this.state;
+    //    this.setState({confirmPass: {...confirmPass, [name]:value}})
+    //}
+
 
     handleSubmit(event) {
         event.preventDefault();
 
         this.setState({ submitted: true });
-        const { user, confirmPass } = this.state;
+        const { user, confirmPass, isPasswordStrong } = this.state;
 
-
+        //if (user.password && this.validate(user.password))
+        //{this.setState({ isPasswordStrong: true });}
+        //else {return;}
 
         if (user.email && user.password
             && user.passport.series && user.passport.number
             && user.passport.firstName && user.passport.middleName
             && user.passport.lastName && user.passport.issuedBy
             && user.passport.issuedAt && user.passport.address
-            && user.passport.birthplace && user.passport.birthdate && confirmPass) {
+            && user.passport.birthplace && user.passport.birthdate && confirmPass.confPass
+            && isPasswordStrong) {
 
                 this.props.register(user);
         }
@@ -93,11 +125,12 @@ class RegisterPage extends React.Component {
         this.setState({ isPasswordShown: !isPasswordShown });
     };
 
+
     render() {
 
 
         const { registering  } = this.props;
-        const { user, submitted, isPasswordShown, confirmPass } = this.state;
+        const { user, submitted, isPasswordShown, confirmPass, isPasswordStrong } = this.state;
         return (
             <div className="col-md-6 col-md-offset-3">
                 <h2>Register</h2>
@@ -109,22 +142,24 @@ class RegisterPage extends React.Component {
                             <div className="help-block">Email is required</div>
                         }
                     </div>
-                    <div className={'wrap-input100 validate-input form-group' + (submitted && !user.password ? ' has-error' : '')}>
+                    <div className={'form-group' + (submitted && (!isPasswordStrong || !user.password) ? ' has-error' : '')}>
                         <label htmlFor="password">Password</label>
-                        <input type={isPasswordShown ? "text" : "password"} className="form-control" name="password" value={user.password} onChange={this.handleChange} />
-                        <i className="fa fa-eye password-icon" onClick={this.togglePasswordVisiblity}/>
+                        <input type="password" className="form-control" name="password" value={user.password} onChange={this.handleChange} />
+                        {submitted && !isPasswordStrong && user.password &&
+                            <div className="help-block">Password is not strong</div>
+                        }
                         {submitted && !user.password &&
                             <div className="help-block">Password is required</div>
                         }
-                        {submitted && !this.validate(user.password) &&
-                            <div className="help-block">Password is not strong</div>
-                        }
                     </div>
-                    <div className={'wrap-input100 validate-input form-group' + (submitted && !confirmPass ? ' has-error' : '')}>
-                        <label htmlFor="confirmpassword">Password</label>
-                        <input type={isPasswordShown ? "text" : "password"} className="form-control" name="confirmpassword" value={confirmPass} onChange={this.handleChange} />
-                        {submitted && confirmPass && user.password!=confirmPass &&
-                            <div className="help-block">Password not same</div>
+                    <div className={'form-group' + (submitted && (confirmPass.confPass !== user.password || !confirmPass.confPass) ? ' has-error' : '')}>
+                        <label htmlFor="confPass">Confirm Pass</label>
+                        <input type="password" className="form-control" name="confPass" value={confirmPass.confPass} onChange={this.handleChange} />
+                        {submitted && confirmPass.confPass !== user.password && confirmPass.confPass &&
+                            <div className="help-block">Password are not equal</div>
+                        }
+                        {submitted && !confirmPass.confPass &&
+                            <div className="help-block">Confirm Pass is required</div>
                         }
                     </div>
                     <div className={'form-group' + (submitted && !user.passport.series ? ' has-error' : '')}>
