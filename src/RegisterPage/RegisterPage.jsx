@@ -52,6 +52,31 @@ class RegisterPage extends React.Component {
         }
     }
 
+    completeTimestamps()
+    {
+        const { user } = this.state;
+        //console.log(user.issuedAt);
+        const temp = user.passport.issuedAt + 'T00:00:00.999999999Z03:00';
+        console.log(temp);
+        this.setState({
+            user: {
+                ...user,
+                passport:
+                    {
+                        ...user.passport,
+                        ["issuedAt"]: user.passport.issuedAt + ':00T00:00:00.999999999Z03:00',
+                        ["birthday"]: (user.passport.birthday + ':00T00:00:00.999999999Z03:00'),
+
+                    }
+            },
+        }, function () {
+            console.log(this.state.user.passport.issuedAt);
+            console.log(this.state.user.passport.birthday);
+        });
+
+
+    }
+
 
     handleChange(event) {
         const { name, value } = event.target;
@@ -64,6 +89,7 @@ class RegisterPage extends React.Component {
             else {this.setState({ isPasswordStrong: false });}
 
         }
+
         this.setState({
             user: {
                 ...user,
@@ -79,13 +105,42 @@ class RegisterPage extends React.Component {
                 [name]: value
             }
         });
+
+        //if (name === "issuedAt")
+        //{
+        //    const temp = value + 'T00:00:00.999999999Z03:00';
+        //    this.setState({
+        //        user: {
+        //            ...user,
+        //            ["issuedAt"]: temp,
+        //            passport:
+         //               {
+         //                   ...user.passport,
+         //               }
+          //      },
+          //  });
+
+        //}
+
+        //if (name === "issuedAt")
+        //{
+        //    {this.setState({ user: ...user, ['issuedAt']:  });}
+        //    else {this.setState({ isPasswordStrong: false });}
+        //}
+
     }
 
     handleSubmit(event) {
         event.preventDefault();
 
+        //this.completeTimestamps();
         this.setState({ submitted: true });
         const { user, confirmPass, isPasswordStrong } = this.state;
+
+        //const issuedAt = user.passport.issuedAt
+
+
+        alert(user.issuedAt);
 
         if (user.email && user.password
             && user.passport.series && user.passport.number
@@ -150,7 +205,7 @@ class RegisterPage extends React.Component {
                     </div>
                     <div className={'form-group' + (submitted && !user.passport.number ? ' has-error' : '')}>
                         <label htmlFor="number">Number</label>
-                        <input type="text" className="form-control" name="number" value={user.passport.number} onChange={this.handleChange} />
+                        <input type="text" className="form-control" name="number" value={user.passport.number } onChange={this.handleChange} />
                         {submitted && !user.passport.number &&
                             <div className="help-block">Number is required</div>
                         }
