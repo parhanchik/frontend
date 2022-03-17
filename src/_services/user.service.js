@@ -14,17 +14,25 @@ export const userService = {
 };
 
 function login(username, password) {
+
+    const body_string =
+        '{'+
+        '"email":"'+username+'",' +
+        '"password":"'+password+'"}'
+
+
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password })
+        //body: JSON.stringify({ username, password })
+        body:body_string
     };
 
     return fetch(`${config.apiUrl}/v1/auth/sign-in`, requestOptions)
         .then(handleResponse)
-        .then(user => {
+        .then(user => { return true;
         //    // store user details and jwt token in local storage to keep user logged in between page refreshes
-            localStorage.setItem('user', JSON.stringify(user));
+        //    localStorage.setItem('user', JSON.stringify(user));
         })
         ;
 }

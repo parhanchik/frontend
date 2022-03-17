@@ -11,7 +11,7 @@ class ConfirmPage extends React.Component {
 
         // reset login status
         this.state = {
-            username: '',
+            email: '',
             password: '',
             code:'',
             submitted: false
