@@ -38,10 +38,16 @@ function login(username, password) {
 }
 
 function confirm(username, password, code) {
+    const body_string =
+        '{'+
+        '"email":"'+username+'",' +
+        '"password":"'+password+'",' +
+        '"code":"'+code+'"}'
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password, code })
+        body:body_string
+        //body: JSON.stringify({ username, password, code })
     };
 
     return fetch(`${config.apiUrl}/v1/auth/submit-code`, requestOptions)
@@ -57,7 +63,7 @@ function confirm(username, password, code) {
 
 function logout() {
     // remove user from local storage to log user out
-    localStorage.removeItem('user');
+    //localStorage.removeItem('user');
 }
 
 function getAll() {
