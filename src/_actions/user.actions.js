@@ -39,7 +39,7 @@ function confirm(username, password, code) {
     return dispatch => {
         dispatch(request({ username }));
 
-        userService.login(username, password, code)
+        userService.confirm(username, password, code)
             .then(
                 user => {
                     dispatch(success(user));

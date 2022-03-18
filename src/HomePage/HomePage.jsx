@@ -6,11 +6,11 @@ import { userActions } from '../_actions';
 
 class HomePage extends React.Component {
     componentDidMount() {
-        this.props.getUsers();
+        //this.props.getUsers();
     }
 
     handleDeleteUser(id) {
-        return (e) => this.props.deleteUser(id);
+        //return (e) => this.props.deleteUser(id);
     }
 
     render() {
@@ -34,8 +34,8 @@ function mapState(state) {
 }
 
 const actionCreators = {
-    getUsers: userActions.getAll,
-    deleteUser: userActions.delete
+    //getUsers: userActions.getAll,
+    //deleteUser: userActions.delete
 }
 
 const connectedHomePage = connect(mapState, actionCreators)(HomePage);
