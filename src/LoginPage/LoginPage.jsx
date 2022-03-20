@@ -2,9 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { history } from '../_helpers/history';
-
+import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai';
 import { userActions } from '../_actions';
-
+import './style.css';
 class LoginPage extends React.Component {
     constructor(props) {
         super(props);
@@ -15,11 +15,18 @@ class LoginPage extends React.Component {
         this.state = {
             email: '',
             password: '',
-            submitted: false
+            code: '',
+            submitted: false,
+            submitted_code: false,
+            disabled: true,
+            isPasswordShown: false
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleSubmitButton = this.handleSubmitButton.bind(this);
+
+
     }
 
     handleChange(e) {
@@ -27,42 +34,109 @@ class LoginPage extends React.Component {
         this.setState({ [name]: value });
     }
 
-    handleSubmit(e) {
+
+    handleSubmitButton(e) {
         e.preventDefault();
 
-        this.setState({ submitted: true });
-        const { username, password } = this.state;
-        if (username && password) {
-            this.props.login(username, password);
+        if (!this.state.submitted)
+        {
+            this.setState({ submitted: true });
+            this.setState({ disabled: false });
+            const { username, password } = this.state;
+            if (username && password) {
+                this.props.login(username, password);
+            }
+        }
+        else
+        {
+            this.setState({ submitted_code: true });
+            const { username, password } = this.state;
+            if (username && password && this.state.code) {
+                this.props.confirm(username, password, this.state.code);
+            }
+
         }
     }
 
+
+    handleSubmit(e) {
+        e.preventDefault();
+
+        //if (!this.state.submitted)
+        //{
+        //this.setState({ submitted: true });
+        //this.setState({ disabled: false });
+        //const { username, password } = this.state;
+        //if (username && password) {
+        //    this.props.login(username, password);
+        //}
+        //}
+        //else
+        //{
+        //    this.setState({ submitted_code: true });
+        //    const { username, password } = this.state;
+        //    if (username && password && this.state.code) {
+        //        this.props.confirm(username, password, this.state.code);
+        //    }
+
+        //}
+    }
+
+    togglePasswordVisiblity = () => {
+        const { isPasswordShown } = this.state;
+        this.setState({ isPasswordShown: !isPasswordShown });
+    };
+
     render() {
+        const { isPasswordShown } = this.state;
         const { loggingIn } = this.props;
-        const { username, password, submitted } = this.state;
+        const { username, password, submitted, submitted_code, code } = this.state;
+
+        const toggleBtn = () =>{
+            this.setState({ isPasswordShown: !isPasswordShown });
+
+        }
+
         return (
             <div className="col-md-6 col-md-offset-3">
                 <h2>Login</h2>
                 <form name="form" onSubmit={this.handleSubmit}>
                     <div className={'form-group' + (submitted && !username ? ' has-error' : '')}>
                         <label htmlFor="username">Username</label>
-                        <input type="text" className="form-control" name="username" value={username} onChange={this.handleChange} />
+                        <input type="text" className="form-control" name="username" value={username} onInput={this.handleChange} />
                         {submitted && !username &&
                             <div className="help-block">Username is required</div>
                         }
                     </div>
                     <div className={'form-group' + (submitted && !password ? ' has-error' : '')}>
                         <label htmlFor="password">Password</label>
-                        <input type="password" className="form-control" name="password" value={password} onChange={this.handleChange} />
+                        <div>
+                        <input className="password-field" type={isPasswordShown ? "text" : "password"} name="password" value={password} onInput={this.handleChange} />
                         {submitted && !password &&
                             <div className="help-block">Password is required</div>
                         }
+                            <button onClick={toggleBtn}>
+                                {isPasswordShown ? <AiOutlineEyeInvisible/> : <AiOutlineEye/>}
+                            </button>
+                        </div>
+
                     </div>
-                    <div className="form-group">
-                        <button className="btn btn-primary">Login</button>
-                        {loggingIn &&
-                            <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                    <div className={'form-group' + ((!this.state.disabled && this.state.submitted_code && !submitted_code) ? ' has-error' : '')}>
+                        <label htmlFor="code">Code</label>
+                        <input
+                               className="form-control"
+                               name="code"
+                               value={code}
+                               type = { (this.state.disabled) ? "hidden" : "text"}
+                               onInput={this.handleChange} />
+                        {submitted && !code &&
+                            <div className="help-block">Code is required</div>
                         }
+                    </div>
+
+                    <div className="form-group">
+                        <button className="btn btn-primary" onClick={this.handleSubmitButton}>Login</button>
+
                         <Link to="/register" className="btn btn-link">Register</Link>
                     </div>
                 </form>
@@ -78,7 +152,8 @@ function mapState(state) {
 
 const actionCreators = {
     login: userActions.login,
-    logout: userActions.logout
+    logout: userActions.logout,
+    confirm: userActions.confirm
 };
 
 const connectedLoginPage = connect(mapState, actionCreators)(LoginPage);

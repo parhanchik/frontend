@@ -63,7 +63,7 @@ function confirm(username, password, code) {
 
 function logout() {
     // remove user from local storage to log user out
-    //localStorage.removeItem('user');
+    localStorage.removeItem('user');
 }
 
 function getAll() {
@@ -72,7 +72,7 @@ function getAll() {
         headers: authHeader()
     };
 
-    return fetch(`${config.apiUrl}/users`, requestOptions).then(handleResponse);
+    return fetch(`${config.apiUrl}/v1/passport`, requestOptions).then(handleResponse);
 }
 
 function getById(id) {

@@ -6,7 +6,7 @@ import { userActions } from '../_actions';
 
 class HomePage extends React.Component {
     componentDidMount() {
-        //this.props.getUsers();
+        this.props.getUsers();
     }
 
     handleDeleteUser(id) {
@@ -34,7 +34,7 @@ function mapState(state) {
 }
 
 const actionCreators = {
-    //getUsers: userActions.getAll,
+    getUsers: userActions.getAll,
     //deleteUser: userActions.delete
 }
 

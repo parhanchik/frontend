@@ -5,6 +5,7 @@ import validator from 'validator'
 
 
 import { userActions } from '../_actions';
+import {AiOutlineEye, AiOutlineEyeInvisible} from "react-icons/ai";
 
 class RegisterPage extends React.Component {
     constructor(props) {
@@ -140,7 +141,7 @@ class RegisterPage extends React.Component {
         //const issuedAt = user.passport.issuedAt
 
 
-        alert(user.issuedAt);
+        //alert(user.issuedAt);
 
         if (user.email && user.password
             && user.passport.series && user.passport.number
@@ -165,6 +166,12 @@ class RegisterPage extends React.Component {
 
         const { registering  } = this.props;
         const { user, submitted, isPasswordShown, confirmPass, isPasswordStrong } = this.state;
+
+        const toggleBtn = () =>{
+            this.setState({ isPasswordShown: !isPasswordShown });
+
+        }
+
         return (
             <div className="col-md-6 col-md-offset-3">
                 <h2>Register</h2>
@@ -178,13 +185,19 @@ class RegisterPage extends React.Component {
                     </div>
                     <div className={'form-group' + (submitted && (!isPasswordStrong || !user.password) ? ' has-error' : '')}>
                         <label htmlFor="password">Password</label>
-                        <input type="password" className="form-control" name="password" value={user.password} onChange={this.handleChange} />
+                        <div>
+                        <input type={isPasswordShown ? "text" : "password"} className="password-field" name="password" value={user.password} onChange={this.handleChange} />
                         {submitted && !isPasswordStrong && user.password &&
                             <div className="help-block">Password is not strong</div>
                         }
                         {submitted && !user.password &&
                             <div className="help-block">Password is required</div>
                         }
+                            <button className="btn" onClick={toggleBtn}>
+                                {isPasswordShown ? <AiOutlineEyeInvisible/> : <AiOutlineEye/>}
+                            </button>
+
+                        </div>
                     </div>
                     <div className={'form-group' + (submitted && (confirmPass.confPass !== user.password || !confirmPass.confPass) ? ' has-error' : '')}>
                         <label htmlFor="confPass">Confirm Pass</label>
