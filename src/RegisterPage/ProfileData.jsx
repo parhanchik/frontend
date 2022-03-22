@@ -15,6 +15,7 @@ class RegisterPage extends React.Component {
             user: {
                 email: '',
                 password: '',
+                passport: {
                     series: '',
                     number: '',
                     firstName: '',
@@ -25,6 +26,7 @@ class RegisterPage extends React.Component {
                     address: '',
                     birthplace: '',
                     birthdate: ''
+                },
             },
             submitted: false,
             isPasswordShown: false,
@@ -43,33 +45,13 @@ class RegisterPage extends React.Component {
             isIssuedAtValid: false,
             isAddressValid: false,
             isBirthplaceValid: false,
-            isBirthdateValid: false,
-
-            step: 1,
+            isBirthdateValid: false
 
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-
-    // go back to previous step
-    prevStep = () => {
-        const { step } = this.state;
-        this.setState({ step: step - 1 });
-    }
-
-    // proceed to the next step
-    nextStep = () => {
-        const { step } = this.state;
-        this.setState({ step: step + 1 });
-    }
-
-    // Handle fields change
-    handleChange = input => e => {
-        this.setState({ [input]: e.target.value });
-    }
-
 
     componentDidMount() {
         document.title = "SuperBank Register";
@@ -190,11 +172,11 @@ class RegisterPage extends React.Component {
         //            ...user,
         //            ["issuedAt"]: temp,
         //            passport:
-         //               {
-         //                   ...user.passport,
-         //               }
-          //      },
-          //  });
+        //               {
+        //                   ...user.passport,
+        //               }
+        //      },
+        //  });
 
         //}
 
@@ -226,7 +208,7 @@ class RegisterPage extends React.Component {
             && user.passport.birthplace && user.passport.birthdate && confirmPass.confPass
             && isPasswordStrong) {
 
-                this.props.register(user);
+            this.props.register(user);
         }
     }
 
@@ -264,13 +246,13 @@ class RegisterPage extends React.Component {
                     <div className={'form-group' + (submitted && (!isPasswordStrong || !user.password) ? ' has-error' : '')}>
                         <label htmlFor="password">Password</label>
                         <div>
-                        <input type={isPasswordShown ? "text" : "password"} className="password-field" name="password" value={user.password} onChange={this.handleChange} />
-                        {submitted && !isPasswordStrong && user.password &&
-                            <div className="help-block">Password is not strong</div>
-                        }
-                        {submitted && !user.password &&
-                            <div className="help-block">Password is required</div>
-                        }
+                            <input type={isPasswordShown ? "text" : "password"} className="password-field" name="password" value={user.password} onChange={this.handleChange} />
+                            {submitted && !isPasswordStrong && user.password &&
+                                <div className="help-block">Password is not strong</div>
+                            }
+                            {submitted && !user.password &&
+                                <div className="help-block">Password is required</div>
+                            }
                             <button className="btn" onClick={toggleBtn}>
                                 {isPasswordShown ? <AiOutlineEyeInvisible/> : <AiOutlineEye/>}
                             </button>
@@ -363,7 +345,7 @@ class RegisterPage extends React.Component {
 
                     <div className="form-group">
                         <button className="btn btn-primary">Register</button>
-                        {registering && 
+                        {registering &&
                             <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
                         }
                         <Link to="/login" className="btn btn-link">Cancel</Link>

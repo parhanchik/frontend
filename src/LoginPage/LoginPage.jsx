@@ -29,6 +29,11 @@ class LoginPage extends React.Component {
 
     }
 
+    componentDidMount() {
+        document.title = "SuperBank Login"
+    }
+
+
     handleChange(e) {
         const { name, value } = e.target;
         this.setState({ [name]: value });
@@ -98,8 +103,11 @@ class LoginPage extends React.Component {
         }
 
         return (
+            <div>
+            <img src={"src/resources/banklogo.png"}/>
             <div className="col-md-6 col-md-offset-3">
-                <h2>Login</h2>
+                <h2>Login To Profile</h2>
+
                 <form name="form" onSubmit={this.handleSubmit}>
                     <div className={'form-group' + (submitted && !username ? ' has-error' : '')}>
                         <label htmlFor="username">Username</label>
@@ -122,7 +130,7 @@ class LoginPage extends React.Component {
 
                     </div>
                     <div className={'form-group' + ((!this.state.disabled && this.state.submitted_code && !submitted_code) ? ' has-error' : '')}>
-                        <label htmlFor="code">Code</label>
+                        <label hidden={this.state.disabled} htmlFor="code">Code</label>
                         <input
                                className="form-control"
                                name="code"
@@ -140,6 +148,7 @@ class LoginPage extends React.Component {
                         <Link to="/register" className="btn btn-link">Register</Link>
                     </div>
                 </form>
+            </div>
             </div>
         );
     }

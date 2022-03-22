@@ -6,6 +6,7 @@ import { userActions } from '../_actions';
 
 class HomePage extends React.Component {
     componentDidMount() {
+        document.title = "SuperBank Home"
         this.props.getUsers();
     }
 
@@ -17,7 +18,7 @@ class HomePage extends React.Component {
         const { user, users } = this.props;
         return (
             <div className="col-md-6 col-md-offset-3">
-                <h1>Hi !</h1>
+                <h1>Hi {user.lastName}!</h1>
                 <p>You're logged in with React!!</p>
                 <p>
                     <Link to="/login">Logout</Link>

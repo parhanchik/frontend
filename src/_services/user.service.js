@@ -72,7 +72,10 @@ function getAll() {
         headers: authHeader()
     };
 
-    return fetch(`${config.apiUrl}/v1/passport`, requestOptions).then(handleResponse);
+    return fetch(`${config.apiUrl}/v1/passport`, requestOptions).then(handleResponse)
+        .then(user => {
+            return user;
+        });
 }
 
 function getById(id) {
