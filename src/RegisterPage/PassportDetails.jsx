@@ -57,18 +57,18 @@ class PassportDetails extends React.Component {
             && values.issuedAt && values.address
             && values.birthplace && values.birthdate && values.confirmPass) {
             const user = { email: values.email,
-                password: values.email,
-                series:values.email,
-                number: values.email,
-                firstName: values.email,
-                middleName: values.email,
-                lastName: values.email,
-                issuedBy: values.email,
-                issuedAt: values.email,
-                address: values.email,
-                birthplace: values.email,
-                birthdate: values.email,
-                confirmPass: values.email,
+                password: values.password,
+                series:values.series,
+                number: values.number,
+                firstName: values.firstName,
+                middleName: values.middleName,
+                lastName: values.lastName,
+                issuedBy: values.issuedBy,
+                issuedAt: values.issuedAt,
+                address: values.address,
+                birthplace: values.birthplace,
+                birthdate: values.birthdate,
+                confirmPass: values.confirmPass,
             }
 
             this.props.register(user);
@@ -101,35 +101,35 @@ class PassportDetails extends React.Component {
                 <form name="form" onSubmit={this.handleSubmit}>
                     <div className={'form-group' + (submitted && (!values.series)  ? ' has-error' : '')}>
                         <label htmlFor="series">Series</label>
-                        <input type="text" className="form-control" name="series" value={values.series} onChange={handleChange} />
+                        <input type="text" className="form-control" name="series" value={values.series} onChange={handleChange('series')} />
                         {submitted && !values.series &&
                             <div className="help-block">Series is required</div>
                         }
                     </div>
                     <div className={'form-group' + (submitted && !values.number ? ' has-error' : '')}>
                         <label htmlFor="number">Number</label>
-                        <input type="text" className="form-control" name="number" value={values.number } onChange={handleChange} />
+                        <input type="text" className="form-control" name="number" value={values.number } onChange={handleChange('number')} />
                         {submitted && !values.number &&
                             <div className="help-block">Number is required</div>
                         }
                     </div>
                     <div className={'form-group' + (submitted && !values.issuedBy ? ' has-error' : '')}>
                         <label htmlFor="issuedBy">Issued By</label>
-                        <input type="text" className="form-control" name="issuedBy" value={values.issuedBy} onChange={handleChange} />
+                        <input type="text" className="form-control" name="issuedBy" value={values.issuedBy} onChange={handleChange('issuedBy')} />
                         {submitted && !values.issuedBy &&
                             <div className="help-block">Issued By is required</div>
                         }
                     </div>
                     <div className={'form-group' + (submitted && !values.issuedAt ? ' has-error' : '')}>
                         <label htmlFor="issuedAt">Issued At</label>
-                        <input type="date" className="form-control" name="issuedAt" value={values.issuedAt} onChange={handleChange} />
+                        <input type="date" className="form-control" name="issuedAt" value={values.issuedAt} onChange={handleChange('issuedAt')} />
                         {submitted && !values.issuedAt &&
                             <div className="help-block">Issued At is required</div>
                         }
                     </div>
                     <div className={'form-group' + (submitted && !values.address ? ' has-error' : '')}>
                         <label htmlFor="address">Address</label>
-                        <input type="text" className="form-control" name="address" value={values.address} onChange={handleChange} />
+                        <input type="text" className="form-control" name="address" value={values.address} onChange={handleChange("address")} />
                         {submitted && !values.address &&
                             <div className="help-block">Address is required</div>
                         }
@@ -137,11 +137,11 @@ class PassportDetails extends React.Component {
 
 
                     <div className="form-group">
-                        <button className="btn btn-primary">Register</button>
+                        <button className="btn btn-primary" onClick={this.handleSubmit}>Register</button>
                         {registering &&
                             <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
                         }
-                        <button className="btn btn-primary" onClick={this.handleSubmit}>Previous</button>
+                        <button className="btn btn-primary" onClick={this.back}>Previous</button>
                         <Link to="/login" className="btn btn-link">Cancel</Link>
                     </div>
                 </form>

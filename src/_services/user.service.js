@@ -94,16 +94,16 @@ function register(user) {
         '"email":"'+user.email+'",' +
         '"password":"'+user.password+'",'+
         '"passport":{'+
-            '"series":"'+user.passport.series+'",'+
-            '"number":"'+user.passport.number+'",'+
-            '"firstName":"'+user.passport.firstName+'",'+
-            '"middleName":"'+user.passport.middleName+'",'+
-            '"lastName":"'+user.passport.lastName+'",'+
-            '"issuedBy":"'+user.passport.issuedBy+'",'+
-            '"issuedAt":"'+user.passport.issuedAt+'T00:00:00.999999999Z'+'",'+
-            '"address":"'+user.passport.address+'",'+
-            '"birthplace":"'+user.passport.birthplace+'",'+
-            '"birthdate":"'+user.passport.birthdate+'T00:00:00.999999999Z'+'"'+'}}';
+            '"series":"'+user.series+'",'+
+            '"number":"'+user.number+'",'+
+            '"firstName":"'+user.firstName+'",'+
+            '"middleName":"'+user.middleName+'",'+
+            '"lastName":"'+user.lastName+'",'+
+            '"issuedBy":"'+user.issuedBy+'",'+
+            '"issuedAt":"'+user.issuedAt+'T00:00:00.999999999Z'+'",'+
+            '"address":"'+user.address+'",'+
+            '"birthplace":"'+user.birthplace+'",'+
+            '"birthdate":"'+user.birthdate+'T00:00:00.999999999Z'+'"'+'}}';
 
 
     const requestOptions = {

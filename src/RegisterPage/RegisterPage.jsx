@@ -156,6 +156,7 @@ class RegisterPage extends React.Component {
                     <PassportDetails
                         nextStep={this.nextStep}
                         prevStep={this.prevStep}
+                        handleChange={this.handleChange}
                         values={values}
                     />
                 );
