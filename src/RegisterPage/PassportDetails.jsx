@@ -18,19 +18,20 @@ class PassportDetails extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-
     back = e => {
         e.preventDefault();
         this.props.prevStep();
     };
 
-    //validateSeries(value)
-    //{
-    //    if (!value) return false;
-    //    if (/^([0-9]{4})$/.test(value))
-    //        this.setState({isSeriesValid: true})
-    //    else this.setState({isSeriesValid: false});
-    //}
+    validateSeries(value)
+    {
+        if (!value) return false;
+        if (/^([0-9]{4})$/.test(value))
+            //this.setState({isSeriesValid: true})
+        //else this.setState({isSeriesValid: false});
+            return true;
+        else return false;
+    }
 
     //validateNumber(value)
     //{
@@ -44,7 +45,7 @@ class PassportDetails extends React.Component {
 
 
     handleSubmit(event) {
-        const { values, handleChange } = this.props;
+        const { values, handleChange, valid_values } = this.props;
         event.preventDefault();
 
         //this.completeTimestamps();
@@ -55,7 +56,8 @@ class PassportDetails extends React.Component {
             && values.firstName && values.middleName
             && values.lastName && values.issuedBy
             && values.issuedAt && values.address
-            && values.birthplace && values.birthdate && values.confirmPass) {
+            && values.birthplace && values.birthdate && values.confirmPass
+        && valid_values.series &&valid_values.number) {
             const user = { email: values.email,
                 password: values.password,
                 series:values.series,
@@ -82,7 +84,7 @@ class PassportDetails extends React.Component {
 
 
     render() {
-        const { values, handleChange } = this.props;
+        const { values, handleChange, valid_values } = this.props;
 
         const { registering  } = this.props;
         const { submitted } = this.state;
@@ -99,18 +101,25 @@ class PassportDetails extends React.Component {
             <div className="col-md-6 col-md-offset-3">
                 <h2>Register</h2>
                 <form name="form" onSubmit={this.handleSubmit}>
-                    <div className={'form-group' + (submitted && (!values.series)  ? ' has-error' : '')}>
+                    <div className={'form-group' + (submitted && ((!values.series) || !valid_values.isSeriesValid)  ? ' has-error' : '')}>
                         <label htmlFor="series">Series</label>
-                        <input type="text" className="form-control" name="series" value={values.series} onChange={handleChange('series')} />
+                        <input type="text" className="form-control" name="series" value={values.series}
+                               pattern={"[0-9]{4}"} onChange={handleChange('series')} />
                         {submitted && !values.series &&
                             <div className="help-block">Series is required</div>
                         }
+                        {submitted && values.series && !valid_values.isSeriesValid &&
+                            <div className="help-block">Series has invalid symbols</div>
+                        }
                     </div>
-                    <div className={'form-group' + (submitted && !values.number ? ' has-error' : '')}>
+                    <div className={'form-group' + (submitted && (!values.number || !valid_values.isNumberValid)  ? ' has-error' : '')}>
                         <label htmlFor="number">Number</label>
                         <input type="text" className="form-control" name="number" value={values.number } onChange={handleChange('number')} />
                         {submitted && !values.number &&
                             <div className="help-block">Number is required</div>
+                        }
+                        {submitted && values.number && !valid_values.isNumberValid &&
+                            <div className="help-block">Number has invalid symbols</div>
                         }
                     </div>
                     <div className={'form-group' + (submitted && !values.issuedBy ? ' has-error' : '')}>

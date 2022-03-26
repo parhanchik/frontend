@@ -15,39 +15,22 @@ class UserDetails extends React.Component {
         this.state = {
             submitted: false,
             isPasswordShown: false,
-            isPasswordStrong: false,
+            //isPasswordStrong: false,
+            //isPasswordValid: false,
+            //isEmailValid: false
         };
     }
 
     continue = e => {
+        console.log("kkk-1");
         this.setState({submitted:true});
-        const { values, handleChange } = this.props;
+        const { values, handleChange, valid_values } = this.props;
         e.preventDefault();
-        if (values.email && values.password && values.confirmPass)
+        if (values.email && values.password && values.confirmPass && valid_values.isEmailValid && valid_values.isPasswordStrong)
         this.props.nextStep();
     };
 
 
-    validatePassword(value) {
-        if (!value) return false;
-
-        if (validator.isStrongPassword(value, {
-            minLength: 8, minLowercase: 1,
-            minUppercase: 1, minNumbers: 1, minSymbols: 1
-        })) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    validateEmail(value)
-    {
-        if (!value) return false;
-        if (/^([a-z0-9_]+@[a-z0-9_]+\.[a-z0-9_]+)$/.test(value))
-            this.setState({isEmailValid: true})
-        else this.setState({isEmailValid: false});
-    }
 
 
     togglePasswordVisiblity = () => {
@@ -62,12 +45,12 @@ class UserDetails extends React.Component {
 
     render() {
 
-        const { values, handleChange } = this.props;
+        const { values, handleChange, valid_values } = this.props;
 
         const { registering  } = this.props;
         const { submitted } = this.state;
 
-        const { isPasswordShown, isPasswordStrong } = this.state;
+        const { isPasswordShown } = this.state;
 
         const toggleBtn = () =>{
             this.setState({ isPasswordShown: !isPasswordShown });
@@ -79,19 +62,22 @@ class UserDetails extends React.Component {
             <div className="col-md-6 col-md-offset-3">
                 <h2>Register</h2>
                 <form name="form" >
-                    <div className={'form-group' + (submitted && !values.email ? ' has-error' : '')}>
+                    <div className={'form-group' + (submitted && (!values.email || !valid_values.isEmailValid) ? ' has-error' : '')}>
                         <label htmlFor="email">Email</label>
                         <input type="text" className="form-control" name="email" value={values.email} onChange={handleChange('email')} />
                         {submitted && !values.email &&
                             <div className="help-block">Email is required</div>
                         }
+                        {submitted && values.email && !valid_values.isEmailValid &&
+                            <div className="help-block">Email must be "example@mail.com" and no contain special symbols</div>
+                        }
                     </div>
-                    <div className={'form-group' + (submitted && (!isPasswordStrong || !values.password) ? ' has-error' : '')}>
+                    <div className={'form-group' + (submitted && (!valid_values.isPasswordStrong || !values.password) ? ' has-error' : '')}>
                         <label htmlFor="password">Password</label>
                         <div>
                             <input type={isPasswordShown ? "text" : "password"} className="password-field" name="password" value={values.password} onChange={handleChange('password')} />
-                            {submitted && !this.validatePassword(values.password) && values.password &&
-                                <div className="help-block">Password is not strong</div>
+                            {submitted && !valid_values.isPasswordStrong && values.password &&
+                                <div className="help-block">Password is not strong, it must contains at least 8 symbols including 1 upper/lower case letter, 1 digit, 1 special symbol</div>
                             }
                             {submitted && !values.password &&
                                 <div className="help-block">Password is required</div>

@@ -32,6 +32,19 @@ class RegisterPage extends React.Component {
             //isPasswordShown: false,
             confirmPass: '',
             isPasswordStrong: false,
+            isEmailValid: false,
+            isPasswordValid: false,
+            isSeriesValid: false,
+            isNumberValid: false,
+            isFirstNameValid: false,
+            isMiddleNameValid: false,
+            isLastNameValid: false,
+            isIssuedByValid: false,
+            isIssuedAtValid: false,
+            isAddressValid: false,
+            isBirthplaceValid: false,
+            isBirthdateValid: false,
+
             step:1
             };
 
@@ -43,24 +56,124 @@ class RegisterPage extends React.Component {
         document.title = "SuperBank Register";
     }
 
+    validatePassword (value)  {
+        if (!value) return false;
+
+        if (validator.isStrongPassword(value, {
+            minLength: 8, minLowercase: 1,
+            minUppercase: 1, minNumbers: 1, minSymbols: 1
+        })) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 
+    validate(name, value)
+    {
 
-    handleChange(event) {
-        const { name, value } = event.target;
+        //console.log(name, value)
+        //console.log(/^[0-9a-zA-Z._-]+@[0-9a-zA-Z._-]+\.[0-9a-zA-Z._-]+$/.test(value))
+        if (name === "email")
+        {
+
+            if (/^[0-9a-zA-Z._-]+@[0-9a-zA-Z._-]+\.[0-9a-zA-Z._-]+$/.test(value))
+            {console.log("YES");this.setState({ isEmailValid: true });}
+            else {console.log("NO");this.setState({ isEmailValid: false });}
+        }
 
         if (name === "password")
         {
             if (this.validatePassword(value))
             {this.setState({ isPasswordStrong: true });}
             else {this.setState({ isPasswordStrong: false });}
-//
+            /// add valid
+            //if (/^[a-zA-Z0-9!"#$%&'()*+,./:;<=>?@\[\\\]^_`{|}~ -]+$/.test(value))
+            //{this.setState({ isPasswordValid: true });}
+            //else {this.setState({ isPasswordValid: false });}
+
         }
+        if (name === "series")
+        {
+            if (/^[0-9]{4}$/.test(value))
+            {this.setState({ isSeriesValid: true });}
+            else {this.setState({ isSeriesValid: false });}
+        }
+
+        if (name === "number")
+        {
+            if (/^[0-9]{6}$/.test(value))
+            {this.setState({ isNumberValid: true });}
+            else {this.setState({ isNumberValid: false });}
+        }
+
+
+        if (name === "firstName")
+        {
+            if (/^[A-Z][a-z]*$/.test(value))
+            {this.setState({ isFirstNameValid: true });}
+            else {this.setState({ isFirstNameValid: false });}
+        }
+
+        if (name === "middleName")
+        {
+            if (/^[A-Z][a-z]*$/.test(value))
+            {this.setState({ isMiddleNameValid: true });}
+            else {this.setState({ isMiddleNameValid: false });}
+        }
+
+        if (name === "lastName")
+        {
+            if (/^[A-Z][a-z]*$/.test(value))
+            {this.setState({ isLastNameValid: true });}
+            else {this.setState({ isLastNameValid: false });}
+        }
+
+        //if (name === "issuedBy")
+        //{
+        //    if (/^[0-9]{4}$/.test(value))
+        //    {this.setState({ isIssuedByValid: true });}
+        //    else {this.setState({ isIssuedByValid: false });}
+        //}
+
+        //if (name === "address")
+        //{
+        //    if (/^[0-9]{4}$/.test(value))
+        //    {this.setState({ isAddressValid: true });}
+        //    else {this.setState({ isAddressValid: false });}
+        //}
+
+        //if (name === "birthplace")
+        //{
+        //    if (/^[a-zA-Z.-]*$/.test(value))
+        //    {this.setState({ isBirthplaceValid: true });}
+        //    else {this.setState({ isBirthplaceValid: false });}
+        //}
+
+    }
+
+
+    handleChange(event) {
+        const { name, value } = event.target;
+
+        //if (name === "password")
+       // {
+       //     if (this.validatePassword(value))
+       //     {this.setState({ isPasswordStrong: true });}
+       //     else {this.setState({ isPasswordStrong: false });}
+//
+       // }
+        console.log("kkk");
+        this.validate(name, value)
+        console.log("kkk-2")
 
         this.setState({
             [name]:value
         });
     }
+
+
 
     handleSubmit(event) {
         event.preventDefault();
@@ -112,6 +225,22 @@ class RegisterPage extends React.Component {
 
     // Handle fields change
     handleChange = input => e => {
+
+        //const { name, value } = event.target;
+
+        //if (name === "password")
+        // {
+        //     if (this.validatePassword(value))
+        //     {this.setState({ isPasswordStrong: true });}
+        //     else {this.setState({ isPasswordStrong: false });}
+//
+        // }
+        //console.log("kkk");
+        this.validate(input, e.target.value)
+        //console.log("kkk-2")
+
+
+
         this.setState({ [input]: e.target.value });
     };
 
@@ -123,6 +252,13 @@ class RegisterPage extends React.Component {
             issuedBy, issuedAt, address, birthplace, birthdate, confirmPass } = this.state;
         const values = { email, password, series, number, firstName, middleName, lastName,
             issuedBy, issuedAt, address, birthplace, birthdate, confirmPass };
+
+        const { isPasswordStrong, isEmailValid, isPasswordValid, isSeriesValid, isNumberValid, isFirstNameValid, isMiddleNameValid, isLastNameValid } = this.state;
+        const valid_values = { isPasswordStrong, isEmailValid, isPasswordValid, isSeriesValid, isNumberValid, isFirstNameValid, isMiddleNameValid, isLastNameValid };
+
+
+
+
         const { registering  } = this.props;
 
         //const toggleBtn = () =>{
@@ -140,6 +276,7 @@ class RegisterPage extends React.Component {
                         nextStep={this.nextStep}
                         handleChange={this.handleChange}
                         values={values}
+                        valid_values={valid_values}
                     />
                 );
             case 2:
@@ -149,6 +286,7 @@ class RegisterPage extends React.Component {
                         prevStep={this.prevStep}
                         handleChange={this.handleChange}
                         values={values}
+                        valid_values={valid_values}
                     />
                 );
             case 3:
@@ -158,6 +296,7 @@ class RegisterPage extends React.Component {
                         prevStep={this.prevStep}
                         handleChange={this.handleChange}
                         values={values}
+                        valid_values={valid_values}
                     />
                 );
             default:
