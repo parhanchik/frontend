@@ -10,7 +10,7 @@ import { LoginPage } from '../LoginPage';
 import { RegisterPage } from '../RegisterPage';
 import { ConfirmPage } from '../ConfirmPage';
 import { Signup } from '../Signup';
-
+import './App.css';
 
 class App extends React.Component {
     constructor(props) {
@@ -25,9 +25,15 @@ class App extends React.Component {
     render() {
         const { alert } = this.props;
         return (
-            <div className="jumbotron">
-                <div className="container">
-                    <div className="col-sm-8 col-sm-offset-2">
+            <div className="jumbotron Main" >
+                <div className="text-center">
+                <a  href="/">
+
+                    <img src="../../src/resources/ibks_color_logo.png" alt="Logo" className="headerlogo text-center" width="50" height="50" />
+                </a>
+                </div>
+                <div className="container" style={{minHeight:'100%'}}>
+                    <div >
                         {alert.message &&
                             <div className={`alert ${alert.type}`}>{alert.message}</div>
                         }
@@ -43,6 +49,7 @@ class App extends React.Component {
                         </Router>
                     </div>
                 </div>
+
             </div>
         );
     }

@@ -1,0 +1,14 @@
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+.flex-container {
+    display: flex;
+}
+
+.fill-width {
+    flex: 1;
+}

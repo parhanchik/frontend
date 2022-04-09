@@ -56,12 +56,12 @@ class PersonalDetails extends React.Component {
         const { submitted } = this.state;
 
         return (
-            <div className="col-md-6 col-md-offset-3">
-                <h2>Register</h2>
-                <form name="form">
+            <div style={{flex: '1', height:'100%'}}>
+                <h2 className="text-center">Register</h2>
+                <form name="form" style={{flex: '1', height:'100%'}}>
                     <div className={'form-group' + (submitted && (!values.firstName || !valid_values.isFirstNameValid) ? ' has-error' : '')}>
-                        <label htmlFor="firstName">First Name</label>
-                        <input type="text" className="form-control" name="firstName" value={values.firstName} onChange={handleChange('firstName')} />
+                        <label style={{fontSize:'16px'}} htmlFor="firstName">First Name</label>
+                        <input style={{fontSize:'20px',height:'300', padding:'13px 10px', width:'100%'}} type="text" className="form-control" name="firstName" value={values.firstName} onChange={handleChange('firstName')} />
                         {submitted && !values.firstName &&
                             <div className="help-block">First Name is required</div>
                         }
@@ -70,8 +70,8 @@ class PersonalDetails extends React.Component {
                         }
                     </div>
                     <div className={'form-group' + (submitted && (!values.middleName || !valid_values.isMiddleNameValid) ? ' has-error' : '')}>
-                        <label htmlFor="middleName">Middle Name</label>
-                        <input type="text" className="form-control" name="middleName" value={values.middleName} onChange={handleChange('middleName')} />
+                        <label style={{fontSize:'16px'}} htmlFor="middleName">Middle Name</label>
+                        <input style={{fontSize:'20px',height:'300', padding:'13px 10px', width:'100%'}} type="text" className="form-control" name="middleName" value={values.middleName} onChange={handleChange('middleName')} />
                         {submitted && !values.middleName &&
                             <div className="help-block">Middle Name is required</div>
                         }
@@ -80,8 +80,8 @@ class PersonalDetails extends React.Component {
                         }
                     </div>
                     <div className={'form-group' + (submitted && (!values.lastName || !valid_values.isLastNameValid) ? ' has-error' : '')}>
-                        <label htmlFor="lastName">Last Name</label>
-                        <input type="text" className="form-control" name="lastName" value={values.lastName} onChange={handleChange('lastName')} />
+                        <label style={{fontSize:'16px'}} htmlFor="lastName">Last Name</label>
+                        <input style={{fontSize:'20px',height:'300', padding:'13px 10px', width:'100%'}} type="text" className="form-control" name="lastName" value={values.lastName} onChange={handleChange('lastName')} />
                         {submitted && !values.lastName &&
                             <div className="help-block">Last Name is required</div>
                         }
@@ -90,24 +90,36 @@ class PersonalDetails extends React.Component {
                         }
                     </div>
                     <div className={'form-group' + (submitted && !values.birthplace ? ' has-error' : '')}>
-                        <label htmlFor="birthplace">Birthplace</label>
-                        <input type="text" className="form-control" name="birthplace" value={values.birthplace} onChange={handleChange('birthplace')} />
+                        <label style={{fontSize:'16px'}} htmlFor="birthplace">Birthplace</label>
+                        <input style={{fontSize:'20px',height:'300', padding:'13px 10px', width:'100%'}} type="text" className="form-control" name="birthplace" value={values.birthplace} onChange={handleChange('birthplace')} />
                         {submitted && !values.birthplace &&
                             <div className="help-block">Birthplace is required</div>
                         }
                     </div>
                     <div className={'form-group' + (submitted && !values.birthdate ? ' has-error' : '')}>
-                        <label htmlFor="birthdate">Birthdate</label>
-                        <input type="date" className="form-control" name="birthdate" value={values.birthdate} onChange={handleChange('birthdate')} />
+                        <label style={{fontSize:'16px'}} htmlFor="birthdate">Birthdate</label>
+                        <input style={{fontSize:'20px',height:'300', padding:'13px 10px', width:'100%'}} type="date" className="form-control" name="birthdate" value={values.birthdate} onChange={handleChange('birthdate')} />
                         {submitted && !values.birthdate &&
                             <div className="help-block">Birthdate is required</div>
                         }
                     </div>
 
-                    <div className="form-group">
-                        <button className="btn btn-primary" onClick={this.continue}>Next</button>
-                        <button className="btn btn-primary" onClick={this.back}>Previous</button>
+                    <div className="form-group text-center">
+                        <p>
+                        <button style={{fontSize:'20px', width:'100%'}} className="btn btn-primary" onClick={this.continue}>Next</button>
+                            <br style={{fontSize:'24'}}></br>
 
+                            <button style={{fontSize:'20px', width:'100%'}} className="btn btn-primary" onClick={this.back}>Previous</button>
+
+                            <br/>
+                            <br/>
+                            <Link style={{fontSize:'20px', width:'100%'}} to="/login">
+                                <button style={{background:'indianred',fontSize:'20px', width:'100%'}} className="btn btn-primary">
+                                    Cancel
+                                </button>
+                            </Link>
+
+                        </p>
                     </div>
                 </form>
             </div>

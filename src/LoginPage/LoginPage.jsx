@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { history } from '../_helpers/history';
 import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai';
 import { userActions } from '../_actions';
-import './style.css';
+//import './style.css';
 class LoginPage extends React.Component {
     constructor(props) {
         super(props);
@@ -103,35 +103,37 @@ class LoginPage extends React.Component {
         }
 
         return (
-            <div>
-            <img src={"src/resources/banklogo.png"}/>
-            <div className="col-md-6 col-md-offset-3">
-                <h2>Login To Profile</h2>
+            <div style={{flex: '1', height:'100%'}}>
+                <br/>
 
-                <form name="form" onSubmit={this.handleSubmit}>
-                    <div className={'form-group' + (submitted && !username ? ' has-error' : '')}>
-                        <label htmlFor="username">Username</label>
-                        <input type="text" className="form-control" name="username" value={username} onInput={this.handleChange} />
+                <div  style={{flex: '1', height:'100%'}}>
+                <h2 className="text-center">Login To Profile</h2>
+
+                <form name="form" onSubmit={this.handleSubmit} style={{flex: '1', height:'100%'}}>
+                    <div className={'form-group' + (submitted && !username ? ' has-error' : '')} style={{flex: '1', height:'100%'}} >
+                        <label style={{fontSize:'16px'}} htmlFor="username" >Username</label>
+                        <input style={{fontSize:'20px',height:'400', padding:'25px 10px'}} type="email" required className="form-control" placeholder="user@gmail.com" name="username" value={username} onInput={this.handleChange} />
                         {submitted && !username &&
                             <div className="help-block">Username is required</div>
                         }
                     </div>
                     <div className={'form-group' + (submitted && !password ? ' has-error' : '')}>
-                        <label htmlFor="password">Password</label>
+                        <label style={{fontSize:'16px'}} htmlFor="password">Password</label>
                         <div>
-                        <input className="password-field" type={isPasswordShown ? "text" : "password"} name="password" value={password} onInput={this.handleChange} />
-                        {submitted && !password &&
-                            <div className="help-block">Password is required</div>
-                        }
-                            <button onClick={toggleBtn}>
+                        <input style={{fontSize:'20px',height:'300', padding:'13px 10px', width:'100%'}} className="password-field"  type={isPasswordShown ? "text" : "password"} name="password" value={password} onInput={this.handleChange} />
+                            <button onClick={toggleBtn} style={{marginLeft:'-50px', cursor:'pointer',border:'none', backgroundColor:'rgba(52, 52, 52, 0.0)',outline:'none', outlineColor:'rgba(52, 52, 52, 0.0)', outlineWidth:0}}>
                                 {isPasswordShown ? <AiOutlineEyeInvisible/> : <AiOutlineEye/>}
                             </button>
+                            {submitted && !password &&
+                                <div className="help-block">Password is required</div>
+                            }
+
                         </div>
 
                     </div>
                     <div className={'form-group' + ((!this.state.disabled && this.state.submitted_code && !submitted_code) ? ' has-error' : '')}>
-                        <label hidden={this.state.disabled} htmlFor="code">Code</label>
-                        <input
+                        <label style={{fontSize:'16px'}} hidden={this.state.disabled} htmlFor="code">Code</label>
+                        <input style={{fontSize:'20px',height:'400', padding:'25px 10px'}}
                                className="form-control"
                                name="code"
                                value={code}
@@ -142,10 +144,11 @@ class LoginPage extends React.Component {
                         }
                     </div>
 
-                    <div className="form-group">
-                        <button className="btn btn-primary" onClick={this.handleSubmitButton}>Login</button>
+                    <div className="form-group text-center">
+                        <button style={{fontSize:'20px', width:'100%'}} className="btn btn-primary" onClick={this.handleSubmitButton}>Login</button>
+                        <br style={{fontSize:'24'}}></br>
 
-                        <Link to="/register" className="btn btn-link">Register</Link>
+                        <Link to="/register" style={{fontSize:'16px'}} className="btn btn-link " >Are you not registered? Register now</Link>
                     </div>
                 </form>
             </div>

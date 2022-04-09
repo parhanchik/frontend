@@ -98,12 +98,12 @@ class PassportDetails extends React.Component {
         //}
 
         return (
-            <div className="col-md-6 col-md-offset-3">
-                <h2>Register</h2>
-                <form name="form" onSubmit={this.handleSubmit}>
-                    <div className={'form-group' + (submitted && ((!values.series) || !valid_values.isSeriesValid)  ? ' has-error' : '')}>
-                        <label htmlFor="series">Series</label>
-                        <input type="text" className="form-control" name="series" value={values.series}
+            <div style={{flex: '1', height:'100%'}}>
+                <h2 className="text-center">Register</h2>
+                <form name="form" onSubmit={this.handleSubmit} style={{flex: '1', height:'100%'}}>
+                    <div className={'form-group' + (submitted && ((!values.series) || !valid_values.isSeriesValid)  ? ' has-error' : '')} style={{flex: '1', height:'100%'}}>
+                        <label style={{fontSize:'16px'}} htmlFor="series">Series</label>
+                        <input style={{fontSize:'20px',height:'400', padding:'25px 10px'}} type="text" className="form-control" name="series" value={values.series}
                                pattern={"[0-9]{4}"} onChange={handleChange('series')} />
                         {submitted && !values.series &&
                             <div className="help-block">Series is required</div>
@@ -113,8 +113,8 @@ class PassportDetails extends React.Component {
                         }
                     </div>
                     <div className={'form-group' + (submitted && (!values.number || !valid_values.isNumberValid)  ? ' has-error' : '')}>
-                        <label htmlFor="number">Number</label>
-                        <input type="text" className="form-control" name="number" value={values.number } onChange={handleChange('number')} />
+                        <label style={{fontSize:'16px'}} htmlFor="number">Number</label>
+                        <input style={{fontSize:'20px',height:'400', padding:'25px 10px'}} type="text" className="form-control" name="number" value={values.number } onChange={handleChange('number')} />
                         {submitted && !values.number &&
                             <div className="help-block">Number is required</div>
                         }
@@ -123,35 +123,44 @@ class PassportDetails extends React.Component {
                         }
                     </div>
                     <div className={'form-group' + (submitted && !values.issuedBy ? ' has-error' : '')}>
-                        <label htmlFor="issuedBy">Issued By</label>
-                        <input type="text" className="form-control" name="issuedBy" value={values.issuedBy} onChange={handleChange('issuedBy')} />
+                        <label style={{fontSize:'16px'}} htmlFor="issuedBy">Issued By</label>
+                        <input style={{fontSize:'20px',height:'400', padding:'25px 10px'}} type="text" className="form-control" name="issuedBy" value={values.issuedBy} onChange={handleChange('issuedBy')} />
                         {submitted && !values.issuedBy &&
                             <div className="help-block">Issued By is required</div>
                         }
                     </div>
                     <div className={'form-group' + (submitted && !values.issuedAt ? ' has-error' : '')}>
-                        <label htmlFor="issuedAt">Issued At</label>
-                        <input type="date" className="form-control" name="issuedAt" value={values.issuedAt} onChange={handleChange('issuedAt')} />
+                        <label style={{fontSize:'16px'}} htmlFor="issuedAt">Issued At</label>
+                        <input style={{fontSize:'20px',height:'400', padding:'25px 10px'}} type="date" className="form-control" name="issuedAt" value={values.issuedAt} onChange={handleChange('issuedAt')} />
                         {submitted && !values.issuedAt &&
                             <div className="help-block">Issued At is required</div>
                         }
                     </div>
                     <div className={'form-group' + (submitted && !values.address ? ' has-error' : '')}>
-                        <label htmlFor="address">Address</label>
-                        <input type="text" className="form-control" name="address" value={values.address} onChange={handleChange("address")} />
+                        <label style={{fontSize:'16px'}} htmlFor="address">Address</label>
+                        <input style={{fontSize:'20px',height:'400', padding:'25px 10px'}} type="text" className="form-control" name="address" value={values.address} onChange={handleChange("address")} />
                         {submitted && !values.address &&
                             <div className="help-block">Address is required</div>
                         }
                     </div>
 
 
-                    <div className="form-group">
-                        <button className="btn btn-primary" onClick={this.handleSubmit}>Register</button>
+                    <div className="form-group text-center">
+                        <p>
+                            <button style={{fontSize:'20px', width:'100%'}} className="btn btn-primary" onClick={this.back}>Previous</button>
+                            <br style={{fontSize:'24'}}></br>
+                            <button style={{fontSize:'20px', width:'100%'}} className="btn btn-primary" onClick={this.handleSubmit}>Register</button>
                         {registering &&
                             <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
                         }
-                        <button className="btn btn-primary" onClick={this.back}>Previous</button>
-                        <Link to="/login" className="btn btn-link">Cancel</Link>
+                            <br/>
+                            <br/>
+                            <Link style={{fontSize:'20px', width:'100%'}} to="/login">
+                                <button style={{background:'indianred',fontSize:'20px', width:'100%'}} className="btn btn-primary">
+                                    Cancel
+                                </button>
+                            </Link>
+                        </p>
                     </div>
                 </form>
             </div>

@@ -59,12 +59,12 @@ class UserDetails extends React.Component {
 
 
         return (
-            <div className="col-md-6 col-md-offset-3">
-                <h2>Register</h2>
-                <form name="form" >
+            <div style={{flex: '1', height:'100%'}}>
+                <h2 className="text-center">Register</h2>
+                <form name="form" style={{flex: '1', height:'100%'}} >
                     <div className={'form-group' + (submitted && (!values.email || !valid_values.isEmailValid) ? ' has-error' : '')}>
-                        <label htmlFor="email">Email</label>
-                        <input type="text" className="form-control" name="email" value={values.email} onChange={handleChange('email')} />
+                        <label style={{fontSize:'16px'}} htmlFor="email">Email</label>
+                        <input style={{fontSize:'20px',height:'400', padding:'25px 10px'}} type="email" placeholder="user@gmail.com" className="form-control" name="email" value={values.email} onChange={handleChange('email')} />
                         {submitted && !values.email &&
                             <div className="help-block">Email is required</div>
                         }
@@ -73,24 +73,24 @@ class UserDetails extends React.Component {
                         }
                     </div>
                     <div className={'form-group' + (submitted && (!valid_values.isPasswordStrong || !values.password) ? ' has-error' : '')}>
-                        <label htmlFor="password">Password</label>
+                        <label style={{fontSize:'16px'}} htmlFor="password">Password</label>
                         <div>
-                            <input type={isPasswordShown ? "text" : "password"} className="password-field" name="password" value={values.password} onChange={handleChange('password')} />
+                            <input style={{fontSize:'20px',height:'300', padding:'13px 10px', width:'100%'}} type={isPasswordShown ? "text" : "password"} className="password-field" name="password" value={values.password} onChange={handleChange('password')} />
+                            <button style={{marginLeft:'-30px', cursor:'pointer',border:'none', backgroundColor:'rgba(52, 52, 52, 0.0)',outline:'none', outlineColor:'rgba(52, 52, 52, 0.0)', outlineWidth:0}}  onClick={toggleBtn} >
+                                {isPasswordShown ? <AiOutlineEyeInvisible/> : <AiOutlineEye/>}
+                            </button>
                             {submitted && !valid_values.isPasswordStrong && values.password &&
                                 <div className="help-block">Password is not strong, it must contains at least 8 symbols including 1 upper/lower case letter, 1 digit, 1 special symbol</div>
                             }
                             {submitted && !values.password &&
                                 <div className="help-block">Password is required</div>
                             }
-                            <button className="btn" onClick={toggleBtn} type={"button"}>
-                                {isPasswordShown ? <AiOutlineEyeInvisible/> : <AiOutlineEye/>}
-                            </button>
 
                         </div>
                     </div>
                     <div className={'form-group' + (submitted && (values.confirmPass !== values.password || !values.confirmPass) ? ' has-error' : '')}>
-                        <label htmlFor="confPass">Confirm Pass</label>
-                        <input type="password" className="form-control" name="confPass" value={values.confirmPass} onChange={handleChange("confirmPass")} />
+                        <label style={{fontSize:'16px'}} htmlFor="confPass">Confirm Pass</label>
+                        <input style={{fontSize:'20px',height:'300', padding:'13px 10px', width:'100%'}} type="password" className="password-field" name="confPass" value={values.confirmPass} onChange={handleChange("confirmPass")} />
                         {submitted && values.confirmPass !== values.password && values.confirmPass &&
                             <div className="help-block">Password are not equal</div>
                         }
@@ -99,8 +99,15 @@ class UserDetails extends React.Component {
                         }
                     </div>
 
-                    <div className="form-group">
-                        <button className="btn btn-primary" onClick={this.continue}>Next</button>
+                    <div className="form-group text-center">
+                        <button style={{fontSize:'20px', width:'100%'}} className="btn btn-primary" onClick={this.continue}>Next</button>
+                            <br/>
+                        <br/>
+                            <Link style={{fontSize:'20px', width:'100%'}} to="/login">
+                                <button style={{background:'indianred',fontSize:'20px', width:'100%'}} className="btn btn-primary">
+                                Cancel
+                                </button>
+                            </Link>
                     </div>
                 </form>
             </div>
