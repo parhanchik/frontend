@@ -9,8 +9,128 @@ export const userActions = {
     confirm,
     register,
     getAll,
-    delete: _delete
+    delete: _delete,
+    create_bill,
+    get_bill,
+    getAll_bill,
+    create_transaction,
+    get_transaction
 };
+
+
+function create_bill(currency , limit, name) {
+    return dispatch => {
+        dispatch(request({ currency , limit, name }));
+
+        userService.create_bill(currency , limit, name)
+            .then(
+                user => {
+                    dispatch(success(user));
+                    //history.push('/confirm');
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                    dispatch(alertActions.error(error.toString()));
+                }
+            );
+    };
+
+    function request(user) { return { type: userConstants.CREATE_BILL_REQUEST, user } }
+    function success(user) { return { type: userConstants.CREATE_BILL_SUCCESS, user } }
+    function failure(error) { return { type: userConstants.CREATE_BILL_FAILURE, error } }
+}
+
+function get_bill(id) {
+    return dispatch => {
+        dispatch(request({ id }));
+
+        userService.get_bill(id)
+            .then(
+                user => {
+                    dispatch(success(user));
+                    //history.push('/confirm');
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                    dispatch(alertActions.error(error.toString()));
+                }
+            );
+    };
+
+    function request(user) { return { type: userConstants.GET_BILL_REQUEST, user } }
+    function success(user) { return { type: userConstants.GET_BILL_SUCCESS, user } }
+    function failure(error) { return { type: userConstants.GET_BILL_FAILURE, error } }
+}
+
+function getAll_bill() {
+    return dispatch => {
+        dispatch(request({  }));
+
+        userService.getAll_bill()
+            .then(
+                user => {
+                    dispatch(success(user));
+                    //history.push('/confirm');
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                    dispatch(alertActions.error(error.toString()));
+                }
+            );
+    };
+
+    function request(user) { return { type: userConstants.GETALL_BILL_REQUEST, user } }
+    function success(user) { return { type: userConstants.GETALL_BILL_SUCCESS, user } }
+    function failure(error) { return { type: userConstants.GETALL_BILL_FAILURE, error } }
+}
+
+function create_transaction() {
+    return dispatch => {
+        dispatch(request({  }));
+
+        userService.create_transaction()
+            .then(
+                user => {
+                    dispatch(success(user));
+                    //history.push('/confirm');
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                    dispatch(alertActions.error(error.toString()));
+                }
+            );
+    };
+
+    function request(user) { return { type: userConstants.CREATE_TRANSACTION_REQUEST, user } }
+    function success(user) { return { type: userConstants.CREATE_TRANSACTION_SUCCESS, user } }
+    function failure(error) { return { type: userConstants.CREATE_TRANSACTION_FAILURE, error } }
+}
+
+function get_transaction(accountID , payee ,amount) {
+    return dispatch => {
+        dispatch(request({ accountID , payee ,amount }));
+
+        userService.get_transaction(accountID , payee ,amount)
+            .then(
+                user => {
+                    dispatch(success(user));
+                    //history.push('/confirm');
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                    dispatch(alertActions.error(error.toString()));
+                }
+            );
+    };
+
+    function request(user) { return { type: userConstants.GET_TRANSACTION_REQUEST, user } }
+    function success(user) { return { type: userConstants.GET_TRANSACTION_SUCCESS, user } }
+    function failure(error) { return { type: userConstants.GET_TRANSACTION_FAILURE, error } }
+}
+
+
+
+
 
 function login(username, password) {
     return dispatch => {

@@ -10,8 +10,111 @@ export const userService = {
     getAll,
     getById,
     update,
-    delete: _delete
+    delete: _delete,
+    create_bill,
+    get_bill,
+    getAll_bill,
+    create_transaction,
+    get_transaction
 };
+
+
+
+function create_bill(currency, limit, name) {
+    const body_string =
+        '{'+
+        '"currency":"'+currency+'",' +
+        '"limit":"'+limit+'",' +
+        '"name":"'+name+'"}'
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:body_string
+        //body: JSON.stringify({ username, password, code })
+    };
+
+    return fetch(`${config.apiUrl}/accounts/create`, requestOptions)
+        .then(handleResponse)
+        .then(account => {
+            //    // store user details and jwt token in local storage to keep user logged in between page refreshes
+            //localStorage.setItem('user', JSON.stringify(user));
+            return account;
+        })
+        ;
+}
+
+function get_bill(id) {
+    const requestOptions = {
+        method: 'GET',
+        //body: JSON.stringify({ username, password, code })
+    };
+
+    return fetch(`${config.apiUrl}/accounts/${id}`, requestOptions)
+        .then(handleResponse)
+        .then(account => {
+            //    // store user details and jwt token in local storage to keep user logged in between page refreshes
+            //localStorage.setItem('user', JSON.stringify(user));
+            return account;
+        })
+        ;
+}
+
+
+function getAll_bill() {
+    const requestOptions = {
+        method: 'GET',
+        //body: JSON.stringify({ username, password, code })
+    };
+
+    return fetch(`${config.apiUrl}/accounts/`, requestOptions)
+        .then(handleResponse)
+        .then(account => {
+            //    // store user details and jwt token in local storage to keep user logged in between page refreshes
+            //localStorage.setItem('user', JSON.stringify(user));
+            return account;
+        })
+        ;
+}
+
+
+function create_transaction(id, payee, amount) {
+    const body_string =
+        '{'+
+        '"accountID":"'+id+'",' +
+        '"payee":"'+payee+'",' +
+        '"amount":"'+amount+'"}'
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:body_string
+        //body: JSON.stringify({ username, password, code })
+    };
+
+    return fetch(`${config.apiUrl}/transactions/create`, requestOptions)
+        .then(handleResponse)
+        .then(transaction => {
+            //    // store user details and jwt token in local storage to keep user logged in between page refreshes
+            //localStorage.setItem('user', JSON.stringify(user));
+            return transaction;
+        })
+        ;
+}
+
+function get_transaction() {
+    const requestOptions = {
+        method: 'GET',
+        //body: JSON.stringify({ username, password, code })
+    };
+
+    return fetch(`${config.apiUrl}/transactions`, requestOptions)
+        .then(handleResponse)
+        .then(account => {
+            //    // store user details and jwt token in local storage to keep user logged in between page refreshes
+            //localStorage.setItem('user', JSON.stringify(user));
+            return account;
+        })
+        ;
+}
 
 function login(username, password) {
 
