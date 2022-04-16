@@ -26,8 +26,8 @@ module.exports = {
     externals: {
         // global app config object
         config: JSON.stringify({
-            apiUrl: 'http://bank.sytes.net:3011/docs/',
-            mainUrl: 'http://bank.sytes.net:3001/docs/'
+            apiUrl: 'http://bank.sytes.net:3011',
+            mainUrl: 'http://bank.sytes.net:3001'
         })
     }
 }

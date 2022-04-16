@@ -103,24 +103,24 @@ class LoginPage extends React.Component {
         }
 
         return (
-            <div style={{flex: '1', height:'100%'}}>
+            <div style={{flex: '1', height:'100%'}} >
                 <br/>
 
-                <div  style={{flex: '1', height:'100%'}}>
+                <div  style={{flex: '1', height:'100%'}} >
                 <h2 className="text-center">Login To Profile</h2>
 
-                <form name="form" onSubmit={this.handleSubmit} style={{flex: '1', height:'100%'}}>
+                <form name="form" onSubmit={this.handleSubmit} style={{flex: '1', height:'100%'}} autoComplete="off">
                     <div className={'form-group' + (submitted && !username ? ' has-error' : '')} style={{flex: '1', height:'100%'}} >
                         <label style={{fontSize:'16px'}} htmlFor="username" >Username</label>
-                        <input style={{fontSize:'20px',height:'400', padding:'25px 10px'}} type="email" required className="form-control" placeholder="user@gmail.com" name="username" value={username} onInput={this.handleChange} />
+                        <input style={{fontSize:'20px',height:'400', padding:'25px 10px'}} autoComplete="off" type="email" required className="form-control" placeholder="user@gmail.com" name="username" value={username} onInput={this.handleChange} />
                         {submitted && !username &&
                             <div className="help-block">Username is required</div>
                         }
                     </div>
-                    <div className={'form-group' + (submitted && !password ? ' has-error' : '')}>
+                    <div className={'form-group' + (submitted && !password ? ' has-error' : '')} >
                         <label style={{fontSize:'16px'}} htmlFor="password">Password</label>
                         <div>
-                        <input style={{fontSize:'20px',height:'300', padding:'13px 10px', width:'100%'}} className="password-field"  type={isPasswordShown ? "text" : "password"} name="password" value={password} onInput={this.handleChange} />
+                        <input style={{fontSize:'20px',height:'300', padding:'13px 10px', width:'100%'}} className="password-field" autoComplete="new-password" type={isPasswordShown ? "text" : "password"} name="password" value={password} onInput={this.handleChange} />
                             <button onClick={toggleBtn} style={{marginLeft:'-50px', cursor:'pointer',border:'none', backgroundColor:'rgba(52, 52, 52, 0.0)',outline:'none', outlineColor:'rgba(52, 52, 52, 0.0)', outlineWidth:0}}>
                                 {isPasswordShown ? <AiOutlineEyeInvisible/> : <AiOutlineEye/>}
                             </button>

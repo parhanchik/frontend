@@ -45,19 +45,29 @@ class PassportDetails extends React.Component {
 
 
     handleSubmit(event) {
+        console.log("handleSubmit");
         const { values, handleChange, valid_values } = this.props;
         event.preventDefault();
 
         //this.completeTimestamps();
         this.setState({ submitted: true });
-
+        console.log("handleSubmit2");
+        console.log(values.email , values.password,
+             values.series , values.number,
+             values.firstName , values.middleName,
+             values.lastName , values.issuedBy,
+             values.issuedAt , values.address,
+             values.birthplace , values.birthdate , values.confirmPass,
+             valid_values.isSeriesValid ,valid_values.isNumberValid);
         if (values.email && values.password
             && values.series && values.number
             && values.firstName && values.middleName
             && values.lastName && values.issuedBy
             && values.issuedAt && values.address
             && values.birthplace && values.birthdate && values.confirmPass
-        && valid_values.series &&valid_values.number) {
+        && valid_values.isSeriesValid &&valid_values.isNumberValid) {
+            console.log("handleSubmit3");
+
             const user = { email: values.email,
                 password: values.password,
                 series:values.series,
@@ -72,6 +82,7 @@ class PassportDetails extends React.Component {
                 birthdate: values.birthdate,
                 confirmPass: values.confirmPass,
             }
+            console.log("handleSubmit4");
 
             this.props.register(user);
         }

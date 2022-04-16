@@ -52,19 +52,20 @@ class UserDetails extends React.Component {
 
         const { isPasswordShown } = this.state;
 
-        const toggleBtn = () =>{
+        const toggleBtn = (e) =>{
+            e.preventDefault();
             this.setState({ isPasswordShown: !isPasswordShown });
         }
 
 
 
         return (
-            <div style={{flex: '1', height:'100%'}}>
+            <div style={{flex: '1', height:'100%'}} >
                 <h2 className="text-center">Register</h2>
-                <form name="form" style={{flex: '1', height:'100%'}} >
+                <form name="form" style={{flex: '1', height:'100%'}} autoComplete="off">
                     <div className={'form-group' + (submitted && (!values.email || !valid_values.isEmailValid) ? ' has-error' : '')}>
                         <label style={{fontSize:'16px'}} htmlFor="email">Email</label>
-                        <input style={{fontSize:'20px',height:'400', padding:'25px 10px'}} type="email" placeholder="user@gmail.com" className="form-control" name="email" value={values.email} onChange={handleChange('email')} />
+                        <input style={{fontSize:'20px',height:'400', padding:'25px 10px'}} autoComplete="off" type="text" placeholder="user@gmail.com" className="form-control" name="email" value={values.email} onChange={handleChange('email')} />
                         {submitted && !values.email &&
                             <div className="help-block">Email is required</div>
                         }
@@ -75,7 +76,7 @@ class UserDetails extends React.Component {
                     <div className={'form-group' + (submitted && (!valid_values.isPasswordStrong || !values.password) ? ' has-error' : '')}>
                         <label style={{fontSize:'16px'}} htmlFor="password">Password</label>
                         <div>
-                            <input style={{fontSize:'20px',height:'300', padding:'13px 10px', width:'100%'}} type={isPasswordShown ? "text" : "password"} className="password-field" name="password" value={values.password} onChange={handleChange('password')} />
+                            <input style={{fontSize:'20px',height:'300', padding:'13px 10px', width:'100%'}} autoComplete="new-password" type={isPasswordShown ? "text" : "password"} className="password-field" name="password" value={values.password} onChange={handleChange('password')} />
                             <button style={{marginLeft:'-30px', cursor:'pointer',border:'none', backgroundColor:'rgba(52, 52, 52, 0.0)',outline:'none', outlineColor:'rgba(52, 52, 52, 0.0)', outlineWidth:0}}  onClick={toggleBtn} >
                                 {isPasswordShown ? <AiOutlineEyeInvisible/> : <AiOutlineEye/>}
                             </button>

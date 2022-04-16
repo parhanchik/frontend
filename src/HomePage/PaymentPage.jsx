@@ -78,8 +78,8 @@ class RegisterPage extends React.Component {
         {
 
             if (/^[0-9a-zA-Z._-]+@[0-9a-zA-Z._-]+\.[0-9a-zA-Z._-]+$/.test(value))
-            {console.log("YES");this.setState({ isEmailValid: true });}
-            else {console.log("NO");this.setState({ isEmailValid: false });}
+            {this.setState({ isEmailValid: true });}
+            else {this.setState({ isEmailValid: false });}
         }
 
         if (name === "password")
