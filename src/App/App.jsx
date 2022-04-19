@@ -7,9 +7,6 @@ import { alertActions } from '../_actions';
 import { PrivateRoute } from '../_components';
 import { HomePage } from '../HomePage';
 import { LoginPage } from '../LoginPage';
-import { RegisterPage } from '../RegisterPage';
-import { ConfirmPage } from '../ConfirmPage';
-import { Signup } from '../Signup';
 import './App.css';
 
 class App extends React.Component {
@@ -40,11 +37,8 @@ class App extends React.Component {
                         <Router history={history}>
                             <Switch>
                                 <PrivateRoute exact path="/" component={HomePage} />
-                                <Route exact path="/confirm" component={ConfirmPage} />
                                 <Route path="/login" component={LoginPage} />
-                                <Route path="/register" component={RegisterPage} />
-                                <Route path="/test" component={Signup} />
-                                <Redirect from="*" to="/" />
+                                <Redirect from="*" to="/login" />
                             </Switch>
                         </Router>
                     </div>

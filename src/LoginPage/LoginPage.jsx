@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { history } from '../_helpers/history';
 import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai';
 import { userActions } from '../_actions';
+
 //import './style.css';
 class LoginPage extends React.Component {
     constructor(props) {
@@ -42,25 +43,12 @@ class LoginPage extends React.Component {
 
     handleSubmitButton(e) {
         e.preventDefault();
-
-        if (!this.state.submitted)
-        {
-            this.setState({ submitted: true });
-            this.setState({ disabled: false });
-            const { username, password } = this.state;
-            if (username && password) {
-                this.props.login(username, password);
-            }
-        }
-        else
-        {
-            this.setState({ submitted_code: true });
-            const { username, password } = this.state;
-            if (username && password && this.state.code) {
-                this.props.confirm(username, password, this.state.code);
-            }
-
-        }
+        ////////////////////////////////////////////
+        ////////////////////////////////////////////
+        ////////////////сюда////////////////////////
+        ////////////////////////////////////////////
+        ////////////////////////////////////////////
+        /////////потом добавлю редирект/////////////
     }
 
 
