@@ -6,7 +6,7 @@ import { userActions } from '../_actions';
 import {AiOutlineEye, AiOutlineEyeInvisible} from "react-icons/ai";
 import  OwnPayment from "./OwnPayment";
 import AnotherPayment from "./AnotherPayment";
-import ChooseOperation from "./ChooseOperation";
+import {ChooseOperation} from "./ChooseOperation";
 import TelegramPayment from './TelegramPayment';
 
 class HomePage extends React.Component {
@@ -102,13 +102,13 @@ class HomePage extends React.Component {
 }
 
 function mapState(state) {
-    //const { users, authentication } = state;
+    const { user } = state.getallbill;
     //const { user } = authentication;
-    return {  };
+    return { user };
 }
 
 const actionCreators = {
-    //getUsers: userActions.getAll,
+    getAll_bill: userActions.getAll_bill
     //deleteUser: userActions.delete
 }
 

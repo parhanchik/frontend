@@ -12,9 +12,18 @@ class ChooseOperation extends React.Component {
     constructor(props) {
         super(props);
 
+
         this.state = {
-            submitted: false
+            submitted: false,
+            inputValue:"",
+            empList:[
+                {
+                    empNames:['Select']
+                }
+            ]
         };
+
+        this.props.getAll_bill();
     }
 
     handleSubmit = e => {
@@ -32,6 +41,15 @@ class ChooseOperation extends React.Component {
         this.props.prevStep();
     };
 
+    addNewEmp=()=>{
+        this.setState(x=>({
+            inputValue:'',
+            empList:[
+                ...x.empList,
+                {empNames:x.inputValue}
+            ]
+        }))
+    }
 
     //validateName(value)
     //{
@@ -61,6 +79,13 @@ class ChooseOperation extends React.Component {
 
 
     render() {
+        let empRecord = this.state.empList.map((x)=>{
+            return(
+            <option>
+                {x.empNames}
+            </option>
+            )
+        })
         const { values } = this.props;
 
 
@@ -79,10 +104,7 @@ class ChooseOperation extends React.Component {
 
                 <div  style={{flex: '1', height:'100%'}}>
                     <select style={{fontSize:'32px', height:'80px'}} name="accounts" className="form-control form-control-lg" >
-                        <option value="iphone 6s">iPhone 6S</option>
-                        <option value="lumia 950">Lumia 950</option>
-                        <option value="nexus 5x">Nexus 5X</option>
-                        <option value="galaxy s7">Galaxy S7</option>
+                        {empRecord}
                     </select>
                     <br style={{fontSize:'24'}}></br>
 
@@ -113,4 +135,18 @@ class ChooseOperation extends React.Component {
     }
 }
 
-export default ChooseOperation;
+function mapState(state) {
+    const { user } = state.getallbill;
+    //const { user } = authentication;
+    return { user };
+}
+
+const actionCreators = {
+    getAll_bill: userActions.getAll_bill
+    //deleteUser: userActions.delete
+}
+
+const connectedChooseOperation = connect(null, actionCreators)(ChooseOperation);
+export { connectedChooseOperation as ChooseOperation };
+
+//export default ChooseOperation;

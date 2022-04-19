@@ -33,7 +33,7 @@ function create_bill(currency, limit, name) {
         //body: JSON.stringify({ username, password, code })
     };
 
-    return fetch(`${config.mainUrl}/accounts/create`, requestOptions)
+    return fetch(`${config.mainUrl}/v1/accounts/create`, requestOptions)
         .then(handleResponse)
         .then(account => {
             //    // store user details and jwt token in local storage to keep user logged in between page refreshes
@@ -49,7 +49,7 @@ function get_bill(id) {
         //body: JSON.stringify({ username, password, code })
     };
 
-    return fetch(`${config.mainUrl}/accounts/${id}`, requestOptions)
+    return fetch(`${config.mainUrl}/v1/accounts/${id}`, requestOptions)
         .then(handleResponse)
         .then(account => {
             //    // store user details and jwt token in local storage to keep user logged in between page refreshes
@@ -66,7 +66,7 @@ function getAll_bill() {
         //body: JSON.stringify({ username, password, code })
     };
 
-    return fetch(`${config.mainUrl}/accounts/`, requestOptions)
+    return fetch(`${config.mainUrl}/v1/accounts/`, requestOptions)
         .then(handleResponse)
         .then(account => {
             //    // store user details and jwt token in local storage to keep user logged in between page refreshes
@@ -90,7 +90,7 @@ function create_transaction(id, payee, amount) {
         //body: JSON.stringify({ username, password, code })
     };
 
-    return fetch(`${config.mainUrl}/transactions/create`, requestOptions)
+    return fetch(`${config.mainUrl}/v1/transactions/create`, requestOptions)
         .then(handleResponse)
         .then(transaction => {
             //    // store user details and jwt token in local storage to keep user logged in between page refreshes
@@ -106,7 +106,7 @@ function get_transaction() {
         //body: JSON.stringify({ username, password, code })
     };
 
-    return fetch(`${config.mainUrl}/transactions`, requestOptions)
+    return fetch(`${config.mainUrl}/v1/transactions`, requestOptions)
         .then(handleResponse)
         .then(account => {
             //    // store user details and jwt token in local storage to keep user logged in between page refreshes

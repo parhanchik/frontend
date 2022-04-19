@@ -19,7 +19,7 @@ export const userActions = {
 
 
 function create_bill(currency , limit, name) {
-    return dispatch => {
+    return (dispatch) => {
         dispatch(request({ currency , limit, name }));
 
         userService.create_bill(currency , limit, name)
@@ -63,8 +63,8 @@ function get_bill(id) {
 }
 
 function getAll_bill() {
-    return dispatch => {
-        dispatch(request({  }));
+    return (dispatch) => {
+        dispatch(request());
 
         userService.getAll_bill()
             .then(
@@ -79,7 +79,7 @@ function getAll_bill() {
             );
     };
 
-    function request(user) { return { type: userConstants.GETALL_BILL_REQUEST, user } }
+    function request() { return { type: userConstants.GETALL_BILL_REQUEST } }
     function success(user) { return { type: userConstants.GETALL_BILL_SUCCESS, user } }
     function failure(error) { return { type: userConstants.GETALL_BILL_FAILURE, error } }
 }
