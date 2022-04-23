@@ -12,7 +12,7 @@ export const userService = {
     update,
     delete: _delete,
     create_bill,
-    get_bill,
+    //get_bill,
     getAll_bill,
     create_transaction,
     get_transaction
@@ -46,6 +46,7 @@ function create_bill(currency, limit, name) {
 function get_bill(id) {
     const requestOptions = {
         method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
         //body: JSON.stringify({ username, password, code })
     };
 
@@ -61,18 +62,21 @@ function get_bill(id) {
 
 
 function getAll_bill() {
+    let user = JSON.parse(localStorage.getItem('user'));
     const requestOptions = {
         method: 'GET',
+        headers: { 'X-Auth-Token': user.token }
+
         //body: JSON.stringify({ username, password, code })
     };
 
-    return fetch(`${config.mainUrl}/v1/accounts/`, requestOptions)
-        .then(handleResponse)
-        .then(account => {
+    return fetch(`${config.mainUrl}/v1/accounts`, requestOptions)
+        // .then(handleResponse)
+        //.then(account => {
             //    // store user details and jwt token in local storage to keep user logged in between page refreshes
             //localStorage.setItem('user', JSON.stringify(user));
-            return account;
-        })
+        //    return account;
+        //})
         ;
 }
 
@@ -133,13 +137,13 @@ function login(username, password) {
 
     return fetch(`${config.apiUrl}/v1/auth/sign-in`, requestOptions)
         .then(handleResponse)
-        .then(user => { return true;
+        .then(user => {
         //    // store user details and jwt token in local storage to keep user logged in between page refreshes
-        //    localStorage.setItem('user', JSON.stringify(user));
+            //localStorage.setItem('user', JSON.stringify(user));
         })
-        .catch(err => {
-            console.log(err);
-        })
+        //.catch(err => {
+        //    console.log(err);
+        //})
         ;
 }
 
@@ -161,7 +165,7 @@ function confirm(username, password, code) {
         .then(user => {
             //    // store user details and jwt token in local storage to keep user logged in between page refreshes
             localStorage.setItem('user', JSON.stringify(user));
-            return user;
+            //return user;
         })
         ;
 }
@@ -169,7 +173,7 @@ function confirm(username, password, code) {
 
 function logout() {
     // remove user from local storage to log user out
-    localStorage.removeItem('user');
+    //localStorage.removeItem('user');
 }
 
 function getAll() {

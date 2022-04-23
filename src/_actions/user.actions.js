@@ -11,7 +11,7 @@ export const userActions = {
     getAll,
     delete: _delete,
     create_bill,
-    get_bill,
+    //get_bill,
     getAll_bill,
     create_transaction,
     get_transaction
@@ -163,13 +163,14 @@ function confirm(username, password, code) {
             .then(
                 user => {
                     dispatch(success(user));
-                    history.push('/');
+
                 },
                 error => {
                     dispatch(failure(error.toString()));
                     dispatch(alertActions.error(error.toString()));
                 }
             );
+        history.push('/');
     };
 
     function request(user) { return { type: userConstants.CONFIRM_REQUEST, user } }
