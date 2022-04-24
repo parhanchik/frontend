@@ -8,17 +8,20 @@ import  OwnPayment from "./OwnPayment";
 import AnotherPayment from "./AnotherPayment";
 import {ChooseOperation} from "./ChooseOperation";
 import TelegramPayment from './TelegramPayment';
+import {CreateBill} from "./CreateBill";
 
 class HomePage extends React.Component {
     componentDidMount() {
+
         document.title = "SuperBank Home"
+
         //this.props.getUsers();
     }
 
 
     constructor(props) {
         super(props);
-
+        //const { dispatch } = this.props;
         this.state = {
             step:1
         };
@@ -87,6 +90,17 @@ class HomePage extends React.Component {
             case 4:
                 return (
                     <TelegramPayment
+                        values={values}
+                        //changeStep={this.changeStep}
+                        backStep={this.backStep}
+                        //handleChange={this.handleChange}
+                        //values={values}
+                        //valid_values={valid_values}
+                    />
+                );
+            case 6:
+                return (
+                    <CreateBill
                         values={values}
                         //changeStep={this.changeStep}
                         backStep={this.backStep}

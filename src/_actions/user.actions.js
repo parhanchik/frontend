@@ -63,13 +63,15 @@ function get_bill(id) {
 }
 
 function getAll_bill() {
-    return (dispatch) => {
+    return dispatch => {
         dispatch(request());
 
         userService.getAll_bill()
             .then(
                 user => {
                     dispatch(success(user));
+                    console.log('222'+JSON.stringify(user))
+                    return user;
                     //history.push('/confirm');
                 },
                 error => {

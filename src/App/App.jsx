@@ -15,7 +15,7 @@ import './App.css';
 class App extends React.Component {
     constructor(props) {
         super(props);
-
+        //const { dispatch } = this.props;
         history.listen((location, action) => {
             // clear alert on location change
             this.props.clearAlerts();

@@ -8,6 +8,9 @@ import { userActions } from '../_actions';
 import {AiOutlineEye, AiOutlineEyeInvisible} from "react-icons/ai";
 
 class ChooseOperation extends React.Component {
+    componentDidMount() {
+        console.log(this.props.getAll_bill());
+    }
 
     constructor(props) {
         super(props);
@@ -16,24 +19,17 @@ class ChooseOperation extends React.Component {
         this.state = {
             submitted: false,
             inputValue:"",
-            empList:[
-                {
-                    empNames:['Select']
-                }
+            billsList:[
+                { id: '1', limit: 1111, currency: 'RUBLES' },
+                { id: '5', limit: 5555, currency: 'DOLLARS'}
             ]
         };
 
-        this.props.getAll_bill();
+
+
     }
 
-    handleSubmit = e => {
-        this.setState({submitted:true});
-        const { values, valid_values } = this.props;
-        e.preventDefault();
-        if (values.firstName && values.middleName && values.lastName && values.birthdate && values.birthplace
-            && valid_values.isFirstNameValid && valid_values.isMiddleNameValid && valid_values.isLastNameValid)
-            this.props.nextStep();
-    };
+
 
     back = e => {
         this.setState({submitted:false});
@@ -41,14 +37,26 @@ class ChooseOperation extends React.Component {
         this.props.prevStep();
     };
 
-    addNewEmp=()=>{
+    addNewEmp=(bills)=>{
         this.setState(x=>({
             inputValue:'',
-            empList:[
-                ...x.empList,
-                {empNames:x.inputValue}
+            billsList:[
+                ...x.billsList,
+                bills
             ]
         }))
+    }
+
+    testFunc = (event) => {
+        //this.setState({accounts:this.props.getAll_bill()});
+        const temp = this.props.getAll_bill();
+
+        console.log(temp)
+        //this.props.dispatch(userActions.getAll());
+
+        //console.log(temp)
+        //console.log('333'+JSON.stringify(temp))
+
     }
 
     //validateName(value)
@@ -59,6 +67,7 @@ class ChooseOperation extends React.Component {
     //    //else return false;
     //}
     changeStep = (event) => {
+        console.log(this.state.accounts)
         const { name } = event.target;
         switch (name) {
             case 'ownTransfer':
@@ -73,16 +82,19 @@ class ChooseOperation extends React.Component {
             case 'history':
                 this.props.changeStep(5);
                 break;
+            case 'createBill':
+                this.props.changeStep(6);
+                break;
         }
 
     };
 
 
     render() {
-        let empRecord = this.state.empList.map((x)=>{
+        let empRecord = this.state.billsList.map((x)=>{
             return(
             <option>
-                {x.empNames}
+                {x.id+x.limit+x.currency}
             </option>
             )
         })
@@ -122,7 +134,12 @@ class ChooseOperation extends React.Component {
                         <button style={{fontSize:'20px', width:'100%'}} name='history' className="btn btn-primary" onClick={this.changeStep} >Transaction history</button>
                         <br style={{fontSize:'24'}}></br>
                         <br style={{fontSize:'24'}}></br>
+                        <button style={{fontSize:'20px', width:'100%'}} name='createBill' className="btn btn-primary" onClick={this.changeStep} >Create Bill</button>
+                        <br style={{fontSize:'24'}}></br>
+                        <br style={{fontSize:'24'}}></br>
                         <button style={{fontSize:'20px', width:'100%'}} name='logout' className="btn btn-primary" >Logout</button>
+                        <button style={{fontSize:'20px', width:'100%'}} name='test' className="btn btn-primary" onClick={this.testFunc} >test</button>
+
 
 
                     </div>

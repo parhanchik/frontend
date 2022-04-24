@@ -21,14 +21,17 @@ export const userService = {
 
 
 function create_bill(currency, limit, name) {
+    let user = JSON.parse(localStorage.getItem('user'));
+
     const body_string =
         '{'+
-        '"currency":"'+currency+'",' +
+        '"currency":'+currency+',' +
         '"limit":"'+limit+'",' +
         '"name":"'+name+'"}'
     const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'X-Auth-Token': user.token },
+
         body:body_string
         //body: JSON.stringify({ username, password, code })
     };
@@ -65,18 +68,19 @@ function getAll_bill() {
     let user = JSON.parse(localStorage.getItem('user'));
     const requestOptions = {
         method: 'GET',
-        headers: { 'X-Auth-Token': user.token }
+        headers: { 'Content-Type': 'application/json', 'X-Auth-Token': user.token }
 
         //body: JSON.stringify({ username, password, code })
     };
 
     return fetch(`${config.mainUrl}/v1/accounts`, requestOptions)
-        // .then(handleResponse)
-        //.then(account => {
+         .then(handleResponse)
+     //   .then(account => {
+            //console.log('111'+(JSON.stringify(account)))
             //    // store user details and jwt token in local storage to keep user logged in between page refreshes
             //localStorage.setItem('user', JSON.stringify(user));
-        //    return account;
-        //})
+     //       return account;
+     //   })
         ;
 }
 
