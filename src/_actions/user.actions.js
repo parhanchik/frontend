@@ -66,13 +66,14 @@ function getAll_bill() {
     return dispatch => {
         dispatch(request());
 
-        userService.getAll_bill()
+        return userService.getAll_bill()
             .then(
-                user => {
-                    dispatch(success(user));
-                    console.log('222'+JSON.stringify(user))
-                    return user;
+                getallbill => {
+                    dispatch(success(getallbill));
+                    console.log('222'+JSON.stringify(getallbill))
+                    //return 'kek';
                     //history.push('/confirm');
+                    return getallbill;
                 },
                 error => {
                     dispatch(failure(error.toString()));
@@ -82,7 +83,7 @@ function getAll_bill() {
     };
 
     function request() { return { type: userConstants.GETALL_BILL_REQUEST } }
-    function success(user) { return { type: userConstants.GETALL_BILL_SUCCESS, user } }
+    function success(getallbill) { return { type: userConstants.GETALL_BILL_SUCCESS, getallbill } }
     function failure(error) { return { type: userConstants.GETALL_BILL_FAILURE, error } }
 }
 
@@ -142,7 +143,6 @@ function login(username, password) {
             .then(
                 user => { 
                     //dispatch(success(user));
-                    //history.push('/confirm');
                 },
                 error => {
                     dispatch(failure(error.toString()));
@@ -165,6 +165,7 @@ function confirm(username, password, code) {
             .then(
                 user => {
                     dispatch(success(user));
+                    history.push('/');
 
                 },
                 error => {
@@ -193,7 +194,7 @@ function register(user) {
         userService.register(user)
             .then(
                 user => {
-                    dispatch(success());
+                    dispatch(success(user));
                     history.push('/login');
                     dispatch(alertActions.success('Registration successful'));
                 },

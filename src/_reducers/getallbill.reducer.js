@@ -7,9 +7,12 @@ export function getallbill(state = {}, action) {
             };
         case userConstants.GETALL_BILL_FAILURE:
             return {
+
             };
         case userConstants.GETALL_BILL_SUCCESS:
-            return {};
+            return {
+                items: action.getallbill
+            };
         default:
             return state
     }

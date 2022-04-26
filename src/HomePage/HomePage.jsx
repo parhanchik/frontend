@@ -116,7 +116,7 @@ class HomePage extends React.Component {
 }
 
 function mapState(state) {
-    const { user } = state.getallbill;
+    const { user } = state;
     //const { user } = authentication;
     return { user };
 }

@@ -47,17 +47,24 @@ class CreateBill extends React.Component {
         switch (currencies) {
             case 'RUBLES':
                 temp = 1;
+                break;
             case 'EURO':
                 temp = 2;
+                break;
             case 'DOLLARS':
                 temp = 3;
+                break;
+            default:
+                temp = 0;
         }
+        //console.log(currencies, temp); return
         //console.log(currencies + limit + name);
         this.props.create_bill(temp, limit, name);
     };
 
     handleChange(e) {
         const { name, value } = e.target;
+        console.log(name, value)
         this.setState({ [name]: value });
     }
 

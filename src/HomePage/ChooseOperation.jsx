@@ -8,8 +8,13 @@ import { userActions } from '../_actions';
 import {AiOutlineEye, AiOutlineEyeInvisible} from "react-icons/ai";
 
 class ChooseOperation extends React.Component {
-    componentDidMount() {
-        console.log(this.props.getAll_bill());
+
+    sleep(milliseconds) {
+        const date = Date.now();
+        let currentDate = null;
+        do {
+            currentDate = Date.now();
+        } while (currentDate - date < milliseconds);
     }
 
     constructor(props) {
@@ -20,12 +25,42 @@ class ChooseOperation extends React.Component {
             submitted: false,
             inputValue:"",
             billsList:[
-                { id: '1', limit: 1111, currency: 'RUBLES' },
-                { id: '5', limit: 5555, currency: 'DOLLARS'}
+                //{ id: 'SELECT', limit: '', currency: '' },
             ]
         };
+        this.props.getAll_bill().then(result => {
+            let str = JSON.stringify(result);
+            let ret = str.replace('{"items":{', '');
+            ret.slice(0, -1);
+
+            const obj = JSON.parse(ret)
+            console.log(obj.accounts);
+            for (var i = 0; i < obj.accounts.length; i++) {
+                var counter = obj.accounts[i];
+                if(counter.hasOwnProperty('balance')){
+                    this.addNewEmp(counter);
+                    //console.log(JSON.stringify(counter))
+                }
+                else
+                {
+                    let temp = JSON.parse(JSON.stringify(counter).slice(0, -1) +',"balance":"0"}');
+                    //console.log(temp)
+                    this.addNewEmp(temp);
+                }
+                //console.log(counter.id);
+            }
+
+            // The checkClient call is now done!
+            //console.log('success:' + JSON.stringify(result));
+
+            // Do something
+        });
 
 
+        //const { getallbill } = this.props;
+        //let str = JSON.stringify(getallbill.items);
+        //console.log('123'+str)
+        //this.setState({inputValue:this.props.getAll_bill()});
 
     }
 
@@ -49,25 +84,23 @@ class ChooseOperation extends React.Component {
 
     testFunc = (event) => {
         //this.setState({accounts:this.props.getAll_bill()});
-        const temp = this.props.getAll_bill();
+        const { getallbill } = this.props;
+        let str = JSON.stringify(getallbill.items);
+        let ret = str.replace('{"items":{', '');
+        ret.slice(0, -1);
 
-        console.log(temp)
-        //this.props.dispatch(userActions.getAll());
-
-        //console.log(temp)
-        //console.log('333'+JSON.stringify(temp))
+        const obj = JSON.parse(ret)
+        console.log(obj.accounts);
+        for (var i = 0; i < obj.accounts.length; i++) {
+            var counter = obj.accounts[i];
+            this.addNewEmp(counter);
+            //console.log(counter.id);
+        }
 
     }
 
-    //validateName(value)
-    //{
-    //    if (!value) return false;
-    //    //if (/^([][0-9]{6}+)$/.test(value))
-    //    {return true}
-    //    //else return false;
-    //}
     changeStep = (event) => {
-        console.log(this.state.accounts)
+        //console.log(this.state.accounts)
         const { name } = event.target;
         switch (name) {
             case 'ownTransfer':
@@ -94,7 +127,7 @@ class ChooseOperation extends React.Component {
         let empRecord = this.state.billsList.map((x)=>{
             return(
             <option>
-                {x.id+x.limit+x.currency}
+                {x.id+":"+x.limit+":"+x.currency+":"+x.balance}
             </option>
             )
         })
@@ -138,7 +171,7 @@ class ChooseOperation extends React.Component {
                         <br style={{fontSize:'24'}}></br>
                         <br style={{fontSize:'24'}}></br>
                         <button style={{fontSize:'20px', width:'100%'}} name='logout' className="btn btn-primary" >Logout</button>
-                        <button style={{fontSize:'20px', width:'100%'}} name='test' className="btn btn-primary" onClick={this.testFunc} >test</button>
+                        <button style={{fontSize:'20px', width:'100%'}} name='test' className="btn btn-primary" onClick={this.testFunc}  >test</button>
 
 
 
@@ -153,9 +186,9 @@ class ChooseOperation extends React.Component {
 }
 
 function mapState(state) {
-    const { user } = state.getallbill;
+    const { getallbill } = state;
     //const { user } = authentication;
-    return { user };
+    return { getallbill };
 }
 
 const actionCreators = {
@@ -163,7 +196,7 @@ const actionCreators = {
     //deleteUser: userActions.delete
 }
 
-const connectedChooseOperation = connect(null, actionCreators)(ChooseOperation);
+const connectedChooseOperation = connect(mapState, actionCreators)(ChooseOperation);
 export { connectedChooseOperation as ChooseOperation };
 
 //export default ChooseOperation;
