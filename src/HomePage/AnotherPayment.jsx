@@ -13,14 +13,59 @@ class AnotherPayment extends React.Component {
         super(props);
 
         this.state = {
-            submitted: false
+            submitted: false,
+            inputValue:"",
+            payee:"",
+            count:"",
+            billsList:[
+                //{ id: 'SELECT', limit: '', currency: '' },
+            ]
         };
+
+        this.props.create_transaction().then(result => {
+            let str = JSON.stringify(result);
+            console.log(str)
+//            let ret = str.replace('{"items":{', '');
+//            ret.slice(0, -1);
+
+//            const obj = JSON.parse(ret)
+//            console.log(obj.accounts);
+//            for (var i = 0; i < obj.accounts.length; i++) {
+//                var counter = obj.accounts[i];
+//                if(counter.hasOwnProperty('balance')){
+//                    this.addNewEmp(counter);
+//                    //console.log(JSON.stringify(counter))
+//                }
+//                else
+//                {
+//                    let temp = JSON.parse(JSON.stringify(counter).slice(0, -1) +',"balance":"0"}');
+//                    //console.log(temp)
+//                    this.addNewEmp(temp);
+//                }
+//                //console.log(counter.id);
+//            }
+//
+        });
+
+        this.handleSubmitButton = this.handleSubmitButton.bind(this);
+        this.onChange = this.onChange.bind(this);
+
     }
 
     changeStep = (event) => {
         const { name } = event.target;
         this.props.backStep();
     };
+
+    addNewEmp=(bills)=>{
+        this.setState(x=>({
+            inputValue:'',
+            billsList:[
+                ...x.billsList,
+                bills
+            ]
+        }))
+    }
 
 
     continue = e => {
@@ -32,24 +77,55 @@ class AnotherPayment extends React.Component {
             this.props.nextStep();
     };
 
+    onChange = (event) =>
+    {
+        this.setState({inputValue:event.target.value});
+        //console.log(event.target.value)
+    }
+
+
     back = e => {
         this.setState({submitted:false});
         e.preventDefault();
         this.props.prevStep();
     };
 
+    handleSubmitButton(e) {
+        e.preventDefault();
+        const { inputValue } = this.state;
+        let id = inputValue.split(':', 1);
 
-    //validateName(value)
-    //{
-    //    if (!value) return false;
-    //    //if (/^([][0-9]{6}+)$/.test(value))
-    //    {return true}
-    //    //else return false;
-    //}
+//        if (!this.state.submitted)
+//        {
+//            this.setState({ submitted: true });
+//            this.setState({ disabled: false });
+//            const { username, password } = this.state;
+//            if (username && password) {
+//                this.props.login(username, password);
+//            }
+//        }
+//        else
+//        {
+//            this.setState({ submitted_code: true });
+//            const { username, password } = this.state;
+//            if (username && password && this.state.code) {
+//                this.props.confirm(username, password, this.state.code);
+//            }
+//
+//        }
+    }
+
 
 
 
     render() {
+        let empRecord = this.state.billsList.map((x)=>{
+            return(
+                <option>
+                    {x.id+":"+x.limit+":"+x.currency+":"+x.balance}
+                </option>
+            )
+        })
 
 
         const { registering  } = this.props;
@@ -69,11 +145,8 @@ class AnotherPayment extends React.Component {
                         <label style={{fontSize:'16px'}} htmlFor="middleName">From Account</label>
 
                         <select style={{fontSize: '32px', height: '80px'}} name="accounts"
-                                className="form-control form-control-lg">
-                            <option value="iphone 6s">iPhone 6S</option>
-                            <option value="lumia 950">Lumia 950</option>
-                            <option value="nexus 5x">Nexus 5X</option>
-                            <option value="galaxy s7">Galaxy S7</option>
+                                className="form-control form-control-lg" onChange={this.onChange}>
+                            {empRecord}
                         </select>
                     </div>
                     <br style={{fontSize:'24'}}></br>
@@ -93,7 +166,7 @@ class AnotherPayment extends React.Component {
                     <br style={{fontSize:'24'}}></br>
 
                     <div className="form-group text-center">
-                        <button style={{fontSize:'20px', width:'100%'}} className="btn btn-primary">Confirm</button>
+                        <button style={{fontSize:'20px', width:'100%'}} className="btn btn-primary" onClick={this.handleSubmitButton}>Confirm</button>
                         <br style={{fontSize:'24'}}></br>
                         <br style={{fontSize:'24'}}></br>
                         <button style={{fontSize:'20px', width:'100%'}} className="btn btn-primary" onClick={this.props.backStep}>Back to Home</button>
@@ -106,4 +179,22 @@ class AnotherPayment extends React.Component {
         );
     }}
 
-export default AnotherPayment;
+function mapState(state) {
+    const { createtransaction } = state;
+    //const { user } = authentication;
+    return { createtransaction };
+}
+
+const actionCreators = {
+    create_transaction: userActions.create_transaction,
+    getAll_bill: userActions.getAll_bill
+
+    //deleteUser: userActions.delete
+}
+
+const connectedAnotherPayment = connect(mapState, actionCreators)(AnotherPayment);
+export { connectedAnotherPayment as AnotherPayment };
+
+
+
+//export default AnotherPayment;

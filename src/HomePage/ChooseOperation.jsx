@@ -9,13 +9,6 @@ import {AiOutlineEye, AiOutlineEyeInvisible} from "react-icons/ai";
 
 class ChooseOperation extends React.Component {
 
-    sleep(milliseconds) {
-        const date = Date.now();
-        let currentDate = null;
-        do {
-            currentDate = Date.now();
-        } while (currentDate - date < milliseconds);
-    }
 
     constructor(props) {
         super(props);
@@ -50,10 +43,6 @@ class ChooseOperation extends React.Component {
                 //console.log(counter.id);
             }
 
-            // The checkClient call is now done!
-            //console.log('success:' + JSON.stringify(result));
-
-            // Do something
         });
 
 
@@ -91,12 +80,19 @@ class ChooseOperation extends React.Component {
 
         const obj = JSON.parse(ret)
         console.log(obj.accounts);
+        this.setState({inputValue:event.target.value});
         for (var i = 0; i < obj.accounts.length; i++) {
             var counter = obj.accounts[i];
             this.addNewEmp(counter);
             //console.log(counter.id);
         }
 
+    }
+
+    onChange = (event) =>
+    {
+        this.setState({inputValue:event.target.value});
+        //console.log(event.target.value)
     }
 
     changeStep = (event) => {
@@ -148,7 +144,7 @@ class ChooseOperation extends React.Component {
                 <br/>
 
                 <div  style={{flex: '1', height:'100%'}}>
-                    <select style={{fontSize:'32px', height:'80px'}} name="accounts" className="form-control form-control-lg" >
+                    <select style={{fontSize:'32px', height:'80px'}} name="accounts" className="form-control form-control-lg" onChange={this.onChange} >
                         {empRecord}
                     </select>
                     <br style={{fontSize:'24'}}></br>

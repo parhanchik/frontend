@@ -87,14 +87,14 @@ function getAll_bill() {
     function failure(error) { return { type: userConstants.GETALL_BILL_FAILURE, error } }
 }
 
-function create_transaction() {
+function create_transaction(id, payee, amount) {
     return dispatch => {
         dispatch(request({  }));
 
-        userService.create_transaction()
+        userService.create_transaction(id, payee, amount)
             .then(
-                user => {
-                    dispatch(success(user));
+                transaction => {
+                    dispatch(success(transaction));
                     //history.push('/confirm');
                 },
                 error => {
@@ -105,7 +105,7 @@ function create_transaction() {
     };
 
     function request(user) { return { type: userConstants.CREATE_TRANSACTION_REQUEST, user } }
-    function success(user) { return { type: userConstants.CREATE_TRANSACTION_SUCCESS, user } }
+    function success(transaction) { return { type: userConstants.CREATE_TRANSACTION_SUCCESS, transaction } }
     function failure(error) { return { type: userConstants.CREATE_TRANSACTION_FAILURE, error } }
 }
 

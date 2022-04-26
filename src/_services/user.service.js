@@ -86,6 +86,8 @@ function getAll_bill() {
 
 
 function create_transaction(id, payee, amount) {
+    let user = JSON.parse(localStorage.getItem('user'));
+
     const body_string =
         '{'+
         '"accountID":"'+id+'",' +
@@ -93,7 +95,7 @@ function create_transaction(id, payee, amount) {
         '"amount":"'+amount+'"}'
     const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'X-Auth-Token': user.token },
         body:body_string
         //body: JSON.stringify({ username, password, code })
     };
