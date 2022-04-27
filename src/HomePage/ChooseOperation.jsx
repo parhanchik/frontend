@@ -32,12 +32,22 @@ class ChooseOperation extends React.Component {
                 var counter = obj.accounts[i];
                 if(counter.hasOwnProperty('balance')){
                     this.addNewEmp(counter);
+                    if (i=== 0)
+                    {
+                        this.props.handleChange(counter.id);
+                    }
                     //console.log(JSON.stringify(counter))
                 }
                 else
                 {
+
+
                     let temp = JSON.parse(JSON.stringify(counter).slice(0, -1) +',"balance":"0"}');
                     //console.log(temp)
+                    if (i=== 0)
+                    {
+                        this.props.handleChange(temp.id);
+                    }
                     this.addNewEmp(temp);
                 }
                 //console.log(counter.id);

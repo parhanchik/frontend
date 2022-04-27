@@ -109,14 +109,15 @@ function create_transaction(id, payee, amount) {
     function failure(error) { return { type: userConstants.CREATE_TRANSACTION_FAILURE, error } }
 }
 
-function get_transaction(accountID , payee ,amount) {
+function get_transaction() {
     return dispatch => {
-        dispatch(request({ accountID , payee ,amount }));
+        dispatch(request({  }));
 
-        userService.get_transaction(accountID , payee ,amount)
+        return userService.get_transaction()
             .then(
-                user => {
-                    dispatch(success(user));
+                transactions => {
+                    dispatch(success(transactions));
+                    return transactions
                     //history.push('/confirm');
                 },
                 error => {
@@ -126,8 +127,8 @@ function get_transaction(accountID , payee ,amount) {
             );
     };
 
-    function request(user) { return { type: userConstants.GET_TRANSACTION_REQUEST, user } }
-    function success(user) { return { type: userConstants.GET_TRANSACTION_SUCCESS, user } }
+    function request() { return { type: userConstants.GET_TRANSACTION_REQUEST } }
+    function success(transactions) { return { type: userConstants.GET_TRANSACTION_SUCCESS, transactions } }
     function failure(error) { return { type: userConstants.GET_TRANSACTION_FAILURE, error } }
 }
 

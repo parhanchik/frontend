@@ -7,7 +7,7 @@ import validator from 'validator'
 import { userActions } from '../_actions';
 import {AiOutlineEye, AiOutlineEyeInvisible} from "react-icons/ai";
 
-class OwnPayment extends React.Component {
+class TransactionList extends React.Component {
 
     constructor(props) {
         super(props);
@@ -22,8 +22,7 @@ class OwnPayment extends React.Component {
             ]
 
         };
-
-        this.props.getAll_bill().then(result => {
+        this.props.get_transaction().then(result => {
             let str = JSON.stringify(result);
             console.log(str)
             let ret = str.replace('{"items":{', '');
@@ -33,26 +32,10 @@ class OwnPayment extends React.Component {
             console.log(obj.accounts);
             for (var i = 0; i < obj.accounts.length; i++) {
                 var counter = obj.accounts[i];
-                if(counter.hasOwnProperty('balance')){
+                //if(counter.hasOwnProperty('balance')){
                     this.addNewEmp(counter);
-                    if (i === 0)
-                    {
                         this.setState({inputValue:counter.id+":"+counter.limit+":"+counter.currency+":"+counter.balance});
-                        this.setState({inputValue_to:counter.id+":"+counter.limit+":"+counter.currency+":"+counter.balance});
-                    }
-                    //console.log(JSON.stringify(counter))
-                }
-                else
-                {
-                    let temp = JSON.parse(JSON.stringify(counter).slice(0, -1) +',"balance":"0"}');
-                    //console.log(temp)
-                    if (i=== 0)
-                    {
-                        this.setState({inputValue:temp.id+":"+temp.limit+":"+temp.currency+":"+temp.balance});
-                        this.setState({inputValue_to:temp.id+":"+temp.limit+":"+temp.currency+":"+temp.balance});
-                    }
-                    this.addNewEmp(temp);
-                }
+                  //console.log(JSON.stringify(counter))
 
                 //console.log(counter.id);
             }
@@ -117,7 +100,7 @@ class OwnPayment extends React.Component {
         const {inputValue, inputValue_to, count} = this.state;
         let id = inputValue.split(':', 1);
         let payee = inputValue_to.split(':', 1);
-        this.props.create_transaction(id, payee, count)
+        //this.props.create_transaction(id, payee, count)
     }
 
 
@@ -125,7 +108,7 @@ class OwnPayment extends React.Component {
             let empRecord = this.state.billsList.map((x)=>{
                 return(
                     <option>
-                        {x.id+":"+x.limit+":"+x.currency+":"+x.balance}
+                        {x.id+":"+x.accountFrom+":"+x.accountTo+":"+x.amount+":"+x.type+":"+x.time}
                     </option>
                 )
             })
@@ -140,6 +123,7 @@ class OwnPayment extends React.Component {
             const { submitted, payee, count } = this.state;
 
         return (
+
             <div style={{flex: '1', height:'100%'}}>
                 <h2 className="text-center">Own Paymant</h2>
                 <div>
@@ -148,7 +132,6 @@ class OwnPayment extends React.Component {
 
                         <select style={{fontSize: '32px', height: '80px'}} name="accounts"
                             className="form-control form-control-lg" onChange={this.onChange}>
-                            {empRecord}
 
                         </select>
                     </div>
@@ -160,7 +143,7 @@ class OwnPayment extends React.Component {
                         <select style={{fontSize: '32px', height: '80px'}} name="payee"
                             className="form-control form-control-lg" onChange={this.onChange}>
                             {empRecord}
-                    </select>
+                        </select>
                     </div>
                     <br style={{fontSize:'24'}}></br>
                     <br style={{fontSize:'24'}}></br>
@@ -187,14 +170,14 @@ class OwnPayment extends React.Component {
 }
 
 const actionCreators = {
-    create_transaction: userActions.create_transaction,
-    getAll_bill: userActions.getAll_bill
+
+    get_transaction: userActions.get_transaction
 
     //deleteUser: userActions.delete
 }
 
-const connectedOwnPayment = connect(null, actionCreators)(OwnPayment);
-export { connectedOwnPayment as OwnPayment };
+const connectedTransactionList = connect(null, actionCreators)(TransactionList);
+export { connectedTransactionList as TransactionList };
 
 
 //export default OwnPayment;

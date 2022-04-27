@@ -111,8 +111,11 @@ function create_transaction(id, payee, amount) {
 }
 
 function get_transaction() {
+    let user = JSON.parse(localStorage.getItem('user'));
+
     const requestOptions = {
         method: 'GET',
+        headers: { 'Content-Type': 'application/json', 'X-Auth-Token': user.token }
         //body: JSON.stringify({ username, password, code })
     };
 

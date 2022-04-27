@@ -8,6 +8,7 @@ import { users } from './users.reducer';
 import { alert } from './alert.reducer';
 import { getallbill } from "./getallbill.reducer";
 import { createtransaction } from "./createtransaction.reducer";
+import {gettransaction} from "./gettransaction.reducer";
 
 const rootReducer = combineReducers({
   confirmation,
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
   users,
   alert,
   getallbill,
-  createtransaction
+  createtransaction,
+  gettransaction
 });
 
 export default rootReducer;

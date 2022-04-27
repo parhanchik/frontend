@@ -9,6 +9,7 @@ import {AnotherPayment} from "./AnotherPayment";
 import {ChooseOperation} from "./ChooseOperation";
 import TelegramPayment from './TelegramPayment';
 import {CreateBill} from "./CreateBill";
+import {TransactionList} from "./TransactionList";
 
 class HomePage extends React.Component {
     componentDidMount() {
@@ -23,7 +24,8 @@ class HomePage extends React.Component {
         super(props);
         //const { dispatch } = this.props;
         this.state = {
-            step:1
+            step:1,
+            id:""
         };
         this.changeStep = this.changeStep.bind(this);
         this.backStep = this.backStep.bind(this);
@@ -51,16 +53,22 @@ class HomePage extends React.Component {
         //return (e) => this.props.deleteUser(id);
     }
 
+    handleChange = input => e => {
+        this.setState({ [input]: e.target.value });
+    };
+
+
 
     render() {
-        const { step } = this.state;
-        const values = {};
+        const { step, id } = this.state;
+        const values = {id};
         switch (step) {
             case 1:
                 return (
                     <ChooseOperation
                         values={values}
                         changeStep={this.changeStep}
+                        handleChange={this.handleChange}
                         //handleChange={this.handleChange}
                         //values={values}
                         //valid_values={valid_values}
@@ -90,6 +98,17 @@ class HomePage extends React.Component {
             case 4:
                 return (
                     <TelegramPayment
+                        values={values}
+                        //changeStep={this.changeStep}
+                        backStep={this.backStep}
+                        //handleChange={this.handleChange}
+                        //values={values}
+                        //valid_values={valid_values}
+                    />
+                );
+            case 5:
+                return (
+                    <TransactionList
                         values={values}
                         //changeStep={this.changeStep}
                         backStep={this.backStep}
