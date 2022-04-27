@@ -22,33 +22,34 @@ class AnotherPayment extends React.Component {
             ]
         };
 
-        this.props.create_transaction().then(result => {
+        this.props.getallbills().then(result => {
             let str = JSON.stringify(result);
             console.log(str)
-//            let ret = str.replace('{"items":{', '');
-//            ret.slice(0, -1);
+            let ret = str.replace('{"items":{', '');
+            ret.slice(0, -1);
 
-//            const obj = JSON.parse(ret)
-//            console.log(obj.accounts);
-//            for (var i = 0; i < obj.accounts.length; i++) {
-//                var counter = obj.accounts[i];
-//                if(counter.hasOwnProperty('balance')){
-//                    this.addNewEmp(counter);
-//                    //console.log(JSON.stringify(counter))
-//                }
-//                else
-//                {
-//                    let temp = JSON.parse(JSON.stringify(counter).slice(0, -1) +',"balance":"0"}');
-//                    //console.log(temp)
-//                    this.addNewEmp(temp);
-//                }
-//                //console.log(counter.id);
-//            }
-//
+            const obj = JSON.parse(ret)
+            console.log(obj.accounts);
+            for (var i = 0; i < obj.accounts.length; i++) {
+                var counter = obj.accounts[i];
+                if(counter.hasOwnProperty('balance')){
+                    this.addNewEmp(counter);
+                    //console.log(JSON.stringify(counter))
+                }
+                else
+                {
+                    let temp = JSON.parse(JSON.stringify(counter).slice(0, -1) +',"balance":"0"}');
+                    //console.log(temp)
+                    this.addNewEmp(temp);
+                }
+                //console.log(counter.id);
+            }
+
         });
 
         this.handleSubmitButton = this.handleSubmitButton.bind(this);
         this.onChange = this.onChange.bind(this);
+        this.handleChange = this.handleChange.bind(this);
 
     }
 
@@ -56,6 +57,11 @@ class AnotherPayment extends React.Component {
         const { name } = event.target;
         this.props.backStep();
     };
+
+    handleChange(e) {
+        const { name, value } = e.target;
+        this.setState({ [name]: value });
+    }
 
     addNewEmp=(bills)=>{
         this.setState(x=>({
@@ -92,8 +98,9 @@ class AnotherPayment extends React.Component {
 
     handleSubmitButton(e) {
         e.preventDefault();
-        const { inputValue } = this.state;
+        const { inputValue, payee,count } = this.state;
         let id = inputValue.split(':', 1);
+        this.props.create_transaction(id, payee, count)
 
 //        if (!this.state.submitted)
 //        {
@@ -135,7 +142,7 @@ class AnotherPayment extends React.Component {
         //const handleSeriesChange = evt =>{
         //    const newSeries =
         //}
-        const { submitted } = this.state;
+        const { submitted, payee, count } = this.state;
 
         return (
             <div style={{flex: '1', height:'100%'}}>
@@ -153,20 +160,20 @@ class AnotherPayment extends React.Component {
                     <br style={{fontSize:'24'}}></br>
                     <div>
                         <label style={{fontSize:'16px'}} htmlFor="middleName">To Account</label>
-                        <input style={{fontSize:'20px',height:'300', padding:'13px 10px', width:'100%'}} type="text" className="form-control" name="Another Account"  />
+                        <input style={{fontSize:'20px',height:'300', padding:'13px 10px', width:'100%'}} type="text" className="form-control" name="payee" value={payee} onInput={this.handleChange} />
 
                     </div>
                     <br style={{fontSize:'24'}}></br>
                     <br style={{fontSize:'24'}}></br>
                     <div>
                         <label style={{fontSize:'16px'}} htmlFor="middleName">Sum Of Payment</label>
-                        <input style={{fontSize:'20px',height:'300', padding:'13px 10px', width:'100%'}} type="text" className="form-control" name="Sum"  />
+                        <input style={{fontSize:'20px',height:'300', padding:'13px 10px', width:'100%'}} type="text" className="form-control" name="count" value={count}  onInput={this.handleChange} />
                     </div>
                     <br style={{fontSize:'24'}}></br>
                     <br style={{fontSize:'24'}}></br>
 
                     <div className="form-group text-center">
-                        <button style={{fontSize:'20px', width:'100%'}} className="btn btn-primary" onClick={this.handleSubmitButton}>Confirm</button>
+                        <button style={{fontSize:'20px', width:'100%'}} className="btn btn-primary" disabled={!payee || !count} onClick={this.handleSubmitButton}>Confirm</button>
                         <br style={{fontSize:'24'}}></br>
                         <br style={{fontSize:'24'}}></br>
                         <button style={{fontSize:'20px', width:'100%'}} className="btn btn-primary" onClick={this.props.backStep}>Back to Home</button>
@@ -192,7 +199,7 @@ const actionCreators = {
     //deleteUser: userActions.delete
 }
 
-const connectedAnotherPayment = connect(mapState, actionCreators)(AnotherPayment);
+const connectedAnotherPayment = connect(null, actionCreators)(AnotherPayment);
 export { connectedAnotherPayment as AnotherPayment };
 
 

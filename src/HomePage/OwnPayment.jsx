@@ -13,8 +13,49 @@ class OwnPayment extends React.Component {
         super(props);
 
         this.state = {
-            submitted: false
+            submitted: false,
+            inputValue:"",
+            inputValue_to:"",
+            count:"",
+            billsList:[
+                //{ id: 'SELECT', limit: '', currency: '' },
+            ]
+
         };
+
+        this.props.getallbills().then(result => {
+            let str = JSON.stringify(result);
+            console.log(str)
+            let ret = str.replace('{"items":{', '');
+            ret.slice(0, -1);
+
+            const obj = JSON.parse(ret)
+            console.log(obj.accounts);
+            for (var i = 0; i < obj.accounts.length; i++) {
+                var counter = obj.accounts[i];
+                if(counter.hasOwnProperty('balance')){
+                    this.addNewEmp(counter);
+                    //console.log(JSON.stringify(counter))
+                }
+                else
+                {
+                    let temp = JSON.parse(JSON.stringify(counter).slice(0, -1) +',"balance":"0"}');
+                    //console.log(temp)
+                    this.addNewEmp(temp);
+                }
+                //console.log(counter.id);
+            }
+
+        });
+        this.handleSubmitButton = this.handleSubmitButton.bind(this);
+        this.onChange = this.onChange.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+
+    }
+
+    handleChange(e) {
+        const { name, value } = e.target;
+        this.setState({ [name]: value });
     }
 
     continue = e => {
@@ -33,18 +74,50 @@ class OwnPayment extends React.Component {
     };
 
 
-    //validateName(value)
-    //{
-    //    if (!value) return false;
-    //    //if (/^([][0-9]{6}+)$/.test(value))
-    //    {return true}
-    //    //else return false;
-    //}
+    changeStep = (event) => {
+        const { name } = event.target;
+        this.props.backStep();
+    };
+
+    addNewEmp=(bills)=>{
+        this.setState(x=>({
+            inputValue:'',
+            billsList:[
+                ...x.billsList,
+                bills
+            ]
+        }))
+    }
+
+    onChange = (event) =>
+    {
+        this.setState({inputValue:event.target.value});
+        //console.log(event.target.value)
+    }
+
+    onChange1 = (event) =>
+    {
+        this.setState({inputValue_to:event.target.value});
+        //console.log(event.target.value)
+    }
+
+    handleSubmitButton(e) {
+        e.preventDefault();
+        const {inputValue, inputValue_to, count} = this.state;
+        let id = inputValue.split(':', 1);
+        let payee = inputValue_to.split(':', 1);
+        this.props.create_transaction(id, payee, count)
+    }
 
 
-
-    render() {
-
+        render() {
+            let empRecord = this.state.billsList.map((x)=>{
+                return(
+                    <option>
+                        {x.id+":"+x.limit+":"+x.currency+":"+x.balance}
+                    </option>
+                )
+            })
 
         const { registering  } = this.props;
         const { values, handleChange, valid_values } = this.props;
@@ -53,7 +126,7 @@ class OwnPayment extends React.Component {
         //const handleSeriesChange = evt =>{
         //    const newSeries =
         //}
-        const { submitted } = this.state;
+            const { submitted, payee, count } = this.state;
 
         return (
             <div style={{flex: '1', height:'100%'}}>
@@ -63,37 +136,32 @@ class OwnPayment extends React.Component {
                         <label style={{fontSize:'16px'}} htmlFor="middleName">From Account</label>
 
                         <select style={{fontSize: '32px', height: '80px'}} name="accounts"
-                            className="form-control form-control-lg">
-                        <option value="iphone 6s">iPhone 6S</option>
-                        <option value="lumia 950">Lumia 950</option>
-                        <option value="nexus 5x">Nexus 5X</option>
-                        <option value="galaxy s7">Galaxy S7</option>
-                    </select>
+                            className="form-control form-control-lg" onChange={this.onChange}>
+                            {empRecord}
+
+                        </select>
                     </div>
                     <br style={{fontSize:'24'}}></br>
                     <br style={{fontSize:'24'}}></br>
                     <div>
                         <label style={{fontSize:'16px'}} htmlFor="middleName">To Account</label>
 
-                        <select style={{fontSize: '32px', height: '80px'}} name="accounts"
-                            className="form-control form-control-lg">
-                        <option value="iphone 6s">iPhone 6S</option>
-                        <option value="lumia 950">Lumia 950</option>
-                        <option value="nexus 5x">Nexus 5X</option>
-                        <option value="galaxy s7">Galaxy S7</option>
+                        <select style={{fontSize: '32px', height: '80px'}} name="payee"
+                            className="form-control form-control-lg" onChange={this.onChange}>
+                            {empRecord}
                     </select>
                     </div>
                     <br style={{fontSize:'24'}}></br>
                     <br style={{fontSize:'24'}}></br>
                     <div>
                         <label style={{fontSize:'16px'}} htmlFor="middleName">Sum Of Payment</label>
-                        <input style={{fontSize:'20px',height:'300', padding:'13px 10px', width:'100%'}} type="text" className="form-control" name="Sum"  />
+                        <input style={{fontSize:'20px',height:'300', padding:'13px 10px', width:'100%'}} type="text" className="form-control" name="count" value={count} onInput={this.handleChange} />
                     </div>
                     <br style={{fontSize:'24'}}></br>
                     <br style={{fontSize:'24'}}></br>
 
                     <div className="form-group text-center">
-                        <button style={{fontSize:'20px', width:'100%'}} className="btn btn-primary">Confirm</button>
+                        <button style={{fontSize:'20px', width:'100%'}} className="btn btn-primary" onClick={this.handleSubmitButton}>Confirm</button>
                         <br style={{fontSize:'24'}}></br>
                         <br style={{fontSize:'24'}}></br>
                         <button style={{fontSize:'20px', width:'100%'}} className="btn btn-primary" onClick={this.props.backStep}>Back to Home</button>
