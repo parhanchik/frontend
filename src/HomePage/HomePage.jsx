@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { userActions } from '../_actions';
 import {AiOutlineEye, AiOutlineEyeInvisible} from "react-icons/ai";
-import  OwnPayment from "./OwnPayment";
+import  {OwnPayment} from "./OwnPayment";
 import {AnotherPayment} from "./AnotherPayment";
 import {ChooseOperation} from "./ChooseOperation";
 import TelegramPayment from './TelegramPayment';

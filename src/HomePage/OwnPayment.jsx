@@ -23,7 +23,7 @@ class OwnPayment extends React.Component {
 
         };
 
-        this.props.getallbills().then(result => {
+        this.props.getAll_bill().then(result => {
             let str = JSON.stringify(result);
             console.log(str)
             let ret = str.replace('{"items":{', '');
@@ -35,14 +35,24 @@ class OwnPayment extends React.Component {
                 var counter = obj.accounts[i];
                 if(counter.hasOwnProperty('balance')){
                     this.addNewEmp(counter);
+                    if (i === 0)
+                    {
+                        this.setState({inputValue:counter.id+":"+counter.limit+":"+counter.currency+":"+counter.balance});
+                        this.setState({inputValue_to:counter.id+":"+counter.limit+":"+counter.currency+":"+counter.balance});
+                    }
                     //console.log(JSON.stringify(counter))
                 }
                 else
                 {
                     let temp = JSON.parse(JSON.stringify(counter).slice(0, -1) +',"balance":"0"}');
                     //console.log(temp)
+                    {
+                        this.setState({inputValue:temp.id+":"+temp.limit+":"+temp.currency+":"+temp.balance});
+                        this.setState({inputValue_to:temp.id+":"+temp.limit+":"+temp.currency+":"+temp.balance});
+                    }
                     this.addNewEmp(temp);
                 }
+
                 //console.log(counter.id);
             }
 
@@ -175,4 +185,15 @@ class OwnPayment extends React.Component {
     }
 }
 
-export default OwnPayment;
+const actionCreators = {
+    create_transaction: userActions.create_transaction,
+    getAll_bill: userActions.getAll_bill
+
+    //deleteUser: userActions.delete
+}
+
+const connectedOwnPayment = connect(null, actionCreators)(OwnPayment);
+export { connectedOwnPayment as OwnPayment };
+
+
+//export default OwnPayment;

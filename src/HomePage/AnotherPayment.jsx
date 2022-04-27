@@ -22,7 +22,7 @@ class AnotherPayment extends React.Component {
             ]
         };
 
-        this.props.getallbills().then(result => {
+        this.props.getAll_bill().then(result => {
             let str = JSON.stringify(result);
             console.log(str)
             let ret = str.replace('{"items":{', '');
@@ -30,16 +30,29 @@ class AnotherPayment extends React.Component {
 
             const obj = JSON.parse(ret)
             console.log(obj.accounts);
+            const q = obj.accounts[0];
+
+
+
             for (var i = 0; i < obj.accounts.length; i++) {
                 var counter = obj.accounts[i];
                 if(counter.hasOwnProperty('balance')){
                     this.addNewEmp(counter);
                     //console.log(JSON.stringify(counter))
+                    if (i === 0)
+                    {
+                        this.setState({inputValue:counter.id+":"+counter.limit+":"+counter.currency+":"+counter.balance});
+                    }
+
                 }
                 else
                 {
                     let temp = JSON.parse(JSON.stringify(counter).slice(0, -1) +',"balance":"0"}');
                     //console.log(temp)
+                    if (i === 0)
+                    {
+                        this.setState({inputValue:temp.id+":"+temp.limit+":"+temp.currency+":"+temp.balance});
+                    }
                     this.addNewEmp(temp);
                 }
                 //console.log(counter.id);
@@ -65,7 +78,6 @@ class AnotherPayment extends React.Component {
 
     addNewEmp=(bills)=>{
         this.setState(x=>({
-            inputValue:'',
             billsList:[
                 ...x.billsList,
                 bills
@@ -86,7 +98,7 @@ class AnotherPayment extends React.Component {
     onChange = (event) =>
     {
         this.setState({inputValue:event.target.value});
-        //console.log(event.target.value)
+        console.log(event.target.value)
     }
 
 
@@ -99,7 +111,9 @@ class AnotherPayment extends React.Component {
     handleSubmitButton(e) {
         e.preventDefault();
         const { inputValue, payee,count } = this.state;
+        console.log("123 "+inputValue)
         let id = inputValue.split(':', 1);
+        console.log(id)
         this.props.create_transaction(id, payee, count)
 
 //        if (!this.state.submitted)
