@@ -23,7 +23,7 @@ function login(username, password) {
 
     const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'text/html' },
         //body: JSON.stringify({ username, password })
         body:body_string
     };
