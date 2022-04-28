@@ -125,20 +125,13 @@ class TransactionList extends React.Component {
         return (
 
             <div style={{flex: '1', height:'100%'}}>
-                <h2 className="text-center">Own Paymant</h2>
+                <h2 className="text-center">Transaction List</h2>
                 <div>
-                    <div>
-                        <label style={{fontSize:'16px'}} htmlFor="middleName">From Account</label>
 
-                        <select style={{fontSize: '32px', height: '80px'}} name="accounts"
-                            className="form-control form-control-lg" onChange={this.onChange}>
-
-                        </select>
-                    </div>
                     <br style={{fontSize:'24'}}></br>
                     <br style={{fontSize:'24'}}></br>
                     <div>
-                        <label style={{fontSize:'16px'}} htmlFor="middleName">To Account</label>
+                        <label style={{fontSize:'16px'}} htmlFor="middleName">Transaction List</label>
 
                         <select style={{fontSize: '32px', height: '80px'}} name="payee"
                             className="form-control form-control-lg" onChange={this.onChange}>
@@ -147,15 +140,8 @@ class TransactionList extends React.Component {
                     </div>
                     <br style={{fontSize:'24'}}></br>
                     <br style={{fontSize:'24'}}></br>
-                    <div>
-                        <label style={{fontSize:'16px'}} htmlFor="middleName">Sum Of Payment</label>
-                        <input style={{fontSize:'20px',height:'300', padding:'13px 10px', width:'100%'}} type="text" className="form-control" name="count" value={count} onInput={this.handleChange} />
-                    </div>
-                    <br style={{fontSize:'24'}}></br>
-                    <br style={{fontSize:'24'}}></br>
 
                     <div className="form-group text-center">
-                        <button style={{fontSize:'20px', width:'100%'}} className="btn btn-primary" onClick={this.handleSubmitButton}>Confirm</button>
                         <br style={{fontSize:'24'}}></br>
                         <br style={{fontSize:'24'}}></br>
                         <button style={{fontSize:'20px', width:'100%'}} className="btn btn-primary" onClick={this.props.backStep}>Back to Home</button>

@@ -81,23 +81,7 @@ class ChooseOperation extends React.Component {
         }))
     }
 
-    testFunc = (event) => {
-        //this.setState({accounts:this.props.getAll_bill()});
-        const { getallbill } = this.props;
-        let str = JSON.stringify(getallbill.items);
-        let ret = str.replace('{"items":{', '');
-        ret.slice(0, -1);
 
-        const obj = JSON.parse(ret)
-        console.log(obj.accounts);
-        this.setState({inputValue:event.target.value});
-        for (var i = 0; i < obj.accounts.length; i++) {
-            var counter = obj.accounts[i];
-            this.addNewEmp(counter);
-            //console.log(counter.id);
-        }
-
-    }
 
     onChange = (event) =>
     {
@@ -177,7 +161,6 @@ class ChooseOperation extends React.Component {
                         <br style={{fontSize:'24'}}></br>
                         <br style={{fontSize:'24'}}></br>
                         <button style={{fontSize:'20px', width:'100%'}} name='logout' className="btn btn-primary" >Logout</button>
-                        <button style={{fontSize:'20px', width:'100%'}} name='test' className="btn btn-primary" onClick={this.testFunc}  >test</button>
 
 
 
