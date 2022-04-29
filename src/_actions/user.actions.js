@@ -185,6 +185,7 @@ function confirm(username, password, code) {
 
 function logout() {
     userService.logout();
+    history.push('/login');
     return { type: userConstants.LOGOUT };
 }
 

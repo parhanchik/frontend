@@ -27,6 +27,7 @@ class ChooseOperation extends React.Component {
             ret.slice(0, -1);
 
             const obj = JSON.parse(ret)
+            //const sorted_obj = obj.sort((a,b) =>  a.id-b.id )
             console.log(obj.accounts);
             for (var i = 0; i < obj.accounts.length; i++) {
                 var counter = obj.accounts[i];
@@ -82,6 +83,11 @@ class ChooseOperation extends React.Component {
     }
 
 
+    logoutHandler = (event) =>
+    {
+        this.props.logout();
+        //console.log(event.target.value)
+    }
 
     onChange = (event) =>
     {
@@ -160,7 +166,7 @@ class ChooseOperation extends React.Component {
                         <button style={{fontSize:'20px', width:'100%'}} name='createBill' className="btn btn-primary" onClick={this.changeStep} >Create Bill</button>
                         <br style={{fontSize:'24'}}></br>
                         <br style={{fontSize:'24'}}></br>
-                        <button style={{fontSize:'20px', width:'100%'}} name='logout' className="btn btn-primary" >Logout</button>
+                        <button style={{fontSize:'20px', width:'100%'}} name='logout' onClick={this.logoutHandler} className="btn btn-primary" >Logout</button>
 
 
 
@@ -181,7 +187,9 @@ function mapState(state) {
 }
 
 const actionCreators = {
-    getAll_bill: userActions.getAll_bill
+    getAll_bill: userActions.getAll_bill,
+    logout: userActions.logout,
+
     //deleteUser: userActions.delete
 }
 

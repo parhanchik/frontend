@@ -80,6 +80,9 @@ class CreateBill extends React.Component {
 
     render() {
 
+        const { currencies, limit, name } = this.state;
+
+
 
         const { registering  } = this.props;
         const { values, handleChange, valid_values } = this.props;
@@ -120,7 +123,7 @@ class CreateBill extends React.Component {
                     </div>
 
                     <div className="form-group text-center">
-                        <button style={{fontSize:'20px', width:'100%'}} className="btn btn-primary" onClick={this.handleSubmit}>Confirm</button>
+                        <button style={{fontSize:'20px', width:'100%'}} className="btn btn-primary" disabled={!name || !limit || currencies==='SELECT'} onClick={this.handleSubmit}>Confirm</button>
                         <br style={{fontSize:'24'}}></br>
                         <br style={{fontSize:'24'}}></br>
                         <button style={{fontSize:'20px', width:'100%'}} className="btn btn-primary" onClick={this.props.backStep}>Back to Home</button>

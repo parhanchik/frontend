@@ -130,14 +130,16 @@ class OwnPayment extends React.Component {
                 )
             })
 
-        const { registering  } = this.props;
+            const { inputValue, inputValue_to, count } = this.state;
+
+
+            const { registering  } = this.props;
         const { values, handleChange, valid_values } = this.props;
         // const { user, submitted, isPasswordShown, confirmPass, isPasswordStrong } = this.state;
 
         //const handleSeriesChange = evt =>{
         //    const newSeries =
         //}
-            const { submitted, payee, count } = this.state;
 
         return (
             <div style={{flex: '1', height:'100%'}}>
@@ -172,7 +174,7 @@ class OwnPayment extends React.Component {
                     <br style={{fontSize:'24'}}></br>
 
                     <div className="form-group text-center">
-                        <button style={{fontSize:'20px', width:'100%'}} className="btn btn-primary" onClick={this.handleSubmitButton}>Confirm</button>
+                        <button style={{fontSize:'20px', width:'100%'}} className="btn btn-primary" disabled={!inputValue || !inputValue_to || !count} onClick={this.handleSubmitButton}>Confirm</button>
                         <br style={{fontSize:'24'}}></br>
                         <br style={{fontSize:'24'}}></br>
                         <button style={{fontSize:'20px', width:'100%'}} className="btn btn-primary" onClick={this.props.backStep}>Back to Home</button>
