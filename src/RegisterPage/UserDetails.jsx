@@ -76,7 +76,7 @@ class UserDetails extends React.Component {
                     <div className={'form-group' + (submitted && (!valid_values.isPasswordStrong || !values.password) ? ' has-error' : '')}>
                         <label style={{fontSize:'16px'}} htmlFor="password">Password</label>
                         <div>
-                            <input style={{fontSize:'20px',height:'300', padding:'13px 10px', width:'100%'}} autoComplete="new-password" type={isPasswordShown ? "text" : "password"} className="password-field" name="password" value={values.password} onChange={handleChange('password')} />
+                            <input style={{fontSize:'20px',height:'300', padding:'13px 10px', paddingRight:'50px', width:'100%'}} autoComplete="new-password" type={isPasswordShown ? "text" : "password"} className="password-field" name="password" value={values.password} onChange={handleChange('password')} />
                             <button style={{marginLeft:'-30px', cursor:'pointer',border:'none', backgroundColor:'rgba(52, 52, 52, 0.0)',outline:'none', outlineColor:'rgba(52, 52, 52, 0.0)', outlineWidth:0}}  onClick={toggleBtn} >
                                 {isPasswordShown ? <AiOutlineEyeInvisible/> : <AiOutlineEye/>}
                             </button>

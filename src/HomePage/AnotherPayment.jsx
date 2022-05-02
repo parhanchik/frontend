@@ -30,18 +30,34 @@ class AnotherPayment extends React.Component {
 
             const obj = JSON.parse(ret)
             console.log(obj.accounts);
+            obj.accounts.sort(function(a, b) {
+                return (a.id) - (b.id);
+            });
             const q = obj.accounts[0];
 
 
 
             for (var i = 0; i < obj.accounts.length; i++) {
                 var counter = obj.accounts[i];
+                switch (counter.currency) {
+                    case 'CURRENCY_DOLLAR_US':
+                        counter.currency = '$';
+                        break
+                    case 'CURRENCY_EURO':
+                        counter.currency = '€';
+                        break
+                    case 'CURRENCY_RUB':
+                        counter.currency = '₽';
+                        break
+
+                }
+
                 if(counter.hasOwnProperty('balance')){
                     this.addNewEmp(counter);
                     //console.log(JSON.stringify(counter))
                     if (i === 0)
                     {
-                        this.setState({inputValue:counter.id+":"+counter.limit+":"+counter.currency+":"+counter.balance});
+                        this.setState({inputValue:counter.id+":"+counter.balance + " " +counter.currency});
                     }
 
                 }
@@ -51,7 +67,7 @@ class AnotherPayment extends React.Component {
                     //console.log(temp)
                     if (i === 0)
                     {
-                        this.setState({inputValue:temp.id+":"+temp.limit+":"+temp.currency+":"+temp.balance});
+                        this.setState({inputValue:temp.id+":"+temp.balance + " " +temp.currency});
                     }
                     this.addNewEmp(temp);
                 }
@@ -143,7 +159,7 @@ class AnotherPayment extends React.Component {
         let empRecord = this.state.billsList.map((x)=>{
             return(
                 <option>
-                    {x.id+":"+x.limit+":"+x.currency+":"+x.balance}
+                    {x.id+":"+x.balance + " " +x.currency}
                 </option>
             )
         })

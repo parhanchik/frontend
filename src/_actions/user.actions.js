@@ -140,16 +140,26 @@ function login(username, password) {
     return dispatch => {
         dispatch(request({ username }));
 
-        userService.login(username, password)
+        return userService.login(username, password)
             .then(
-                user => { 
-                    //dispatch(success(user));
+                user => {
+                    dispatch(success(user));
+
+                    console.log(user)
+                    return user
                 },
                 error => {
+                    console.log(error)
                     dispatch(failure(error.toString()));
                     dispatch(alertActions.error(error.toString()));
+                    return error
                 }
-            );
+            ).catch(error => {
+                //console.log(error)
+                dispatch(failure(error.toString()));
+       //         dispatch(alertActions.error(error.toString()));
+                return error
+            })
     };
 
     function request(user) { return { type: userConstants.LOGIN_REQUEST, user } }
@@ -162,19 +172,24 @@ function confirm(username, password, code) {
     return dispatch => {
         dispatch(request({ username }));
 
-        userService.confirm(username, password, code)
+        return userService.confirm(username, password, code)
             .then(
                 user => {
+                    console.log("123"+user)
+
                     dispatch(success(user));
                     history.push('/');
-
+                    return user
                 },
                 error => {
+                    console.log("321"+error)
+
                     dispatch(failure(error.toString()));
                     dispatch(alertActions.error(error.toString()));
+                    return error
                 }
             );
-        history.push('/');
+        //history.push('/');
     };
 
     function request(user) { return { type: userConstants.CONFIRM_REQUEST, user } }

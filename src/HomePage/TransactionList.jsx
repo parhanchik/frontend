@@ -30,11 +30,26 @@ class TransactionList extends React.Component {
 
             const obj = JSON.parse(ret)
             console.log(obj.accounts);
+            obj.accounts.sort(function(a, b) {
+                return (a.id) - (b.id);
+            });
             for (var i = 0; i < obj.accounts.length; i++) {
-                var counter = obj.accounts[i];
+                let counter = obj.accounts[i];
+                switch (counter.currency) {
+                    case 'CURRENCY_DOLLAR_US':
+                        counter.currency = '$';
+                        break
+                    case 'CURRENCY_EURO':
+                        counter.currency = '€';
+                        break
+                    case 'CURRENCY_RUB':
+                        counter.currency = '₽';
+                        break
+
+                }
                 //if(counter.hasOwnProperty('balance')){
                     this.addNewEmp(counter);
-                        this.setState({inputValue:counter.id+":"+counter.limit+":"+counter.currency+":"+counter.balance});
+                        this.setState({inputValue:counter.id+":"+counter.balance + " " +counter.currency});
                   //console.log(JSON.stringify(counter))
 
                 //console.log(counter.id);

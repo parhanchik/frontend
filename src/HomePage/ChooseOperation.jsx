@@ -29,8 +29,24 @@ class ChooseOperation extends React.Component {
             const obj = JSON.parse(ret)
             //const sorted_obj = obj.sort((a,b) =>  a.id-b.id )
             console.log(obj.accounts);
+            obj.accounts.sort(function(a, b) {
+                return (a.id) - (b.id);
+            });
             for (var i = 0; i < obj.accounts.length; i++) {
                 var counter = obj.accounts[i];
+                switch (counter.currency) {
+                    case 'CURRENCY_DOLLAR_US':
+                        counter.currency = '$';
+                        break
+                    case 'CURRENCY_EURO':
+                        counter.currency = '€';
+                        break
+                    case 'CURRENCY_RUB':
+                        counter.currency = '₽';
+                        break
+
+                }
+
                 if(counter.hasOwnProperty('balance')){
                     this.addNewEmp(counter);
                     if (i=== 0)
@@ -123,7 +139,7 @@ class ChooseOperation extends React.Component {
         let empRecord = this.state.billsList.map((x)=>{
             return(
             <option>
-                {x.id+":"+x.limit+":"+x.currency+":"+x.balance}
+                {x.id+":"+x.balance + " " +x.currency}
             </option>
             )
         })
@@ -150,14 +166,27 @@ class ChooseOperation extends React.Component {
                     <br style={{fontSize:'24'}}></br>
 
                     <div className="form-group text-center">
-                        <button style={{fontSize:'20px', width:'100%'}} name='ownTransfer' className="btn btn-primary" onClick={this.changeStep}>Transfer to own account</button>
+
+                        <button style={{fontSize:'20px', width:'100%'}} name='ownTransfer' className="btn btn-primary" onClick={this.changeStep}>
+                            <img style={{mixBlendMode:'multiply'}} src="../../src/resources/own_payment.png" alt="my image" width={"10%"}  />
+                            <br/>
+                            To Own Account
+                        </button>
                         <br style={{fontSize:'24'}}></br>
                         <br style={{fontSize:'24'}}></br>
-                        <button style={{fontSize:'20px', width:'100%'}} name='anotherTransfer' className="btn btn-primary" onClick={this.changeStep} >Transfer to another account</button>
+                        <button style={{fontSize:'20px', width:'100%'}} name='anotherTransfer' className="btn btn-primary" onClick={this.changeStep} >
+                            <img style={{mixBlendMode:'multiply'}} src="../../src/resources/another_payment.png" alt="my image" width={"10%"}  />
+                            <br/>
+                            To Another Account
+                        </button>
                         <br style={{fontSize:'24'}}></br>
                         <br style={{fontSize:'24'}}></br>
 
-                        <button style={{fontSize:'20px', width:'100%'}} name='tgTransfer' className="btn btn-primary" onClick={this.changeStep} >Transfer with Telegram</button>
+                        <button style={{fontSize:'20px', width:'100%'}} name='tgTransfer' className="btn btn-primary" onClick={this.changeStep} >
+                            <img style={{mixBlendMode:'multiply'}} src="../../src/resources/telegram_icon.png" alt="my image" width={"10%"}  />
+                            <br/>
+                            Telegram Bot
+                        </button>
                         <br style={{fontSize:'24'}}></br>
                         <br style={{fontSize:'24'}}></br>
                         <button style={{fontSize:'20px', width:'100%'}} name='history' className="btn btn-primary" onClick={this.changeStep} >Transaction history</button>
@@ -166,7 +195,7 @@ class ChooseOperation extends React.Component {
                         <button style={{fontSize:'20px', width:'100%'}} name='createBill' className="btn btn-primary" onClick={this.changeStep} >Create Bill</button>
                         <br style={{fontSize:'24'}}></br>
                         <br style={{fontSize:'24'}}></br>
-                        <button style={{fontSize:'20px', width:'100%'}} name='logout' onClick={this.logoutHandler} className="btn btn-primary" >Logout</button>
+                        <button style={{background:'indianred',fontSize:'20px', width:'100%'}} name='logout' onClick={this.logoutHandler} color={"red"} className="btn btn-primary" >Logout</button>
 
 
 

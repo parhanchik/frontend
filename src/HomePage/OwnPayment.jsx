@@ -31,15 +31,36 @@ class OwnPayment extends React.Component {
 
             const obj = JSON.parse(ret)
             console.log(obj.accounts);
+            obj.accounts.sort(function(a, b) {
+                return (a.id) - (b.id);
+            });
+
             for (var i = 0; i < obj.accounts.length; i++) {
                 var counter = obj.accounts[i];
+                switch (counter.currency) {
+                    case 'CURRENCY_DOLLAR_US':
+                        counter.currency = '$';
+                        break
+                    case 'CURRENCY_EURO':
+                        counter.currency = '€';
+                        break
+                    case 'CURRENCY_RUB':
+                        counter.currency = '₽';
+                        break
+
+                }
+
                 if(counter.hasOwnProperty('balance')){
                     this.addNewEmp(counter);
                     if (i === 0)
                     {
-                        this.setState({inputValue:counter.id+":"+counter.limit+":"+counter.currency+":"+counter.balance});
-                        this.setState({inputValue_to:counter.id+":"+counter.limit+":"+counter.currency+":"+counter.balance});
+                        this.setState({inputValue:counter.id+":"+counter.balance + " " +counter.currency});
                     }
+                    if (i === 1)
+                    {
+                        this.setState({inputValue_to:counter.id+":"+counter.balance + " " +counter.currency});
+                    }
+
                     //console.log(JSON.stringify(counter))
                 }
                 else
@@ -48,13 +69,19 @@ class OwnPayment extends React.Component {
                     //console.log(temp)
                     if (i=== 0)
                     {
-                        this.setState({inputValue:temp.id+":"+temp.limit+":"+temp.currency+":"+temp.balance});
-                        this.setState({inputValue_to:temp.id+":"+temp.limit+":"+temp.currency+":"+temp.balance});
+                        this.setState({inputValue:temp.id+":"+temp.balance + " " +temp.currency});
                     }
+                    if (i=== 1)
+                    {
+                        this.setState({inputValue_to:temp.id+":"+temp.balance + " " +temp.currency});
+                    }
+
                     this.addNewEmp(temp);
                 }
 
-                //console.log(counter.id);
+                //const {inputValue, inputValue_to} = this.state;
+
+                //console.log(inputValue, inputValue_to);
             }
 
         });
@@ -92,7 +119,6 @@ class OwnPayment extends React.Component {
 
     addNewEmp=(bills)=>{
         this.setState(x=>({
-            inputValue:'',
             billsList:[
                 ...x.billsList,
                 bills
@@ -122,15 +148,28 @@ class OwnPayment extends React.Component {
 
 
         render() {
+            const { inputValue, inputValue_to, count } = this.state;
+            //console.log(inputValue_to)
+
             let empRecord = this.state.billsList.map((x)=>{
+                //console.log(inputValue_to.split(':', 1) + x.id + (x.id !== inputValue_to.split(':', 1)))
+                    return(
+                        <option>
+                            {x.id+":"+x.balance + " " +x.currency}
+                        </option>
+                    )
+            })
+
+            let empRecord1 = this.state.billsList.map((x)=>{
+                //console.log(inputValue)
+                if (x.id.toString() !== inputValue.split(':', 1).toString())
                 return(
                     <option>
-                        {x.id+":"+x.limit+":"+x.currency+":"+x.balance}
+                        {x.id+":"+x.balance + " " +x.currency}
                     </option>
                 )
             })
 
-            const { inputValue, inputValue_to, count } = this.state;
 
 
             const { registering  } = this.props;
@@ -161,7 +200,7 @@ class OwnPayment extends React.Component {
 
                         <select style={{fontSize: '32px', height: '80px'}} name="payee"
                             className="form-control form-control-lg" onChange={this.onChange}>
-                            {empRecord}
+                            {empRecord1}
                     </select>
                     </div>
                     <br style={{fontSize:'24'}}></br>

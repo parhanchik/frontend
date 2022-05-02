@@ -75,6 +75,14 @@ function getAll_bill() {
 
     return fetch(`${config.mainUrl}/v1/accounts`, requestOptions)
          .then(handleResponse)
+        .catch(error => {
+            //Here is still promise
+            console.log(error);
+            error.json().then((body) => {
+                //Here is already the payload from API
+                console.log(body);
+            });
+        })
      //   .then(account => {
             //console.log('111'+(JSON.stringify(account)))
             //    // store user details and jwt token in local storage to keep user logged in between page refreshes
@@ -147,12 +155,19 @@ function login(username, password) {
     return fetch(`${config.apiUrl}/v1/auth/sign-in`, requestOptions)
         .then(handleResponse)
         .then(user => {
+  //          console.log(user)
         //    // store user details and jwt token in local storage to keep user logged in between page refreshes
             //localStorage.setItem('user', JSON.stringify(user));
-        })
-        //.catch(err => {
-        //    console.log(err);
-        //})
+        }
+   //     ,
+   //         error => {
+   //             console.log(error)
+   //         }
+            )
+  //      .catch(err => {
+  //          return err
+ //           console.log(err);
+ //       })
         ;
 }
 
@@ -267,7 +282,17 @@ function handleResponse(response) {
                 location.reload(true);
             }
 
+            if (response.status === 404) {
+                // auto logout if 401 response returned from api
+                const obj = JSON.parse(text)
+
+                //console.log(text)
+                //location.reload(true);
+            }
+            //console.log(data.code+" "+response.statusText)
             const error = (data && data.message) || response.statusText;
+            //console.log(error)
+
             return Promise.reject(error);
         }
 

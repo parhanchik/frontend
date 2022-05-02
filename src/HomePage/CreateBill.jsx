@@ -36,7 +36,7 @@ class CreateBill extends React.Component {
     back = e => {
         this.setState({submitted:false});
         e.preventDefault();
-        this.props.prevStep();
+        this.props.backStep();
     };
 
     handleSubmit = e => {
@@ -60,6 +60,7 @@ class CreateBill extends React.Component {
         //console.log(currencies, temp); return
         //console.log(currencies + limit + name);
         this.props.create_bill(temp, limit, name);
+        this.back(e);
     };
 
     handleChange(e) {

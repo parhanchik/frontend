@@ -69,6 +69,7 @@ class HomePage extends React.Component {
                         values={values}
                         changeStep={this.changeStep}
                         handleChange={this.handleChange}
+                        backStep={this.backStep}
                         //handleChange={this.handleChange}
                         //values={values}
                         //valid_values={valid_values}
