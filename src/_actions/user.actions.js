@@ -14,8 +14,31 @@ export const userActions = {
     //get_bill,
     getAll_bill,
     create_transaction,
-    get_transaction
+    get_transaction,
+    fill_balance
 };
+
+function fill_balance(id , amount) {
+    return (dispatch) => {
+        dispatch(request({ id , amount }));
+
+        userService.fill_balance(id , amount)
+            .then(
+                user => {
+                    dispatch(success(user));
+                    //history.push('/confirm');
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                    dispatch(alertActions.error(error.toString()));
+                }
+            );
+    };
+
+    function request(user) { return { type: userConstants.FILL_BALANCE_REQUEST, user } }
+    function success(user) { return { type: userConstants.FILL_BALANCE_SUCCESS, user } }
+    function failure(error) { return { type: userConstants.FILL_BALANCE_FAILURE, error } }
+}
 
 
 function create_bill(currency , limit, name) {

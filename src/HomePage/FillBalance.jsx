@@ -7,7 +7,7 @@ import validator from 'validator'
 import { userActions } from '../_actions';
 import {AiOutlineEye, AiOutlineEyeInvisible} from "react-icons/ai";
 
-class TransactionList extends React.Component {
+class FillBalance extends React.Component {
 
     constructor(props) {
         super(props);
@@ -15,14 +15,13 @@ class TransactionList extends React.Component {
         this.state = {
             submitted: false,
             inputValue:"",
-            inputValue_to:"",
-            count:"",
             billsList:[
                 //{ id: 'SELECT', limit: '', currency: '' },
-            ]
-
+            ],
+            amount:''
         };
-        this.props.get_transaction().then(result => {
+
+        this.props.getAll_bill().then(result => {
             let str = JSON.stringify(result);
             console.log(str)
             let ret = str.replace('{"items":{', '');
@@ -33,8 +32,12 @@ class TransactionList extends React.Component {
             obj.accounts.sort(function(a, b) {
                 return (a.id) - (b.id);
             });
+            const q = obj.accounts[0];
+
+
+
             for (var i = 0; i < obj.accounts.length; i++) {
-                let counter = obj.accounts[i];
+                var counter = obj.accounts[i];
                 switch (counter.currency) {
                     case 'CURRENCY_DOLLAR_US':
                         counter.currency = '$';
@@ -47,24 +50,34 @@ class TransactionList extends React.Component {
                         break
 
                 }
-                //if(counter.hasOwnProperty('balance')){
-                    this.addNewEmp(counter);
-                        this.setState({inputValue:counter.id+":"+counter.balance + " " +counter.currency});
-                  //console.log(JSON.stringify(counter))
 
+                if(counter.hasOwnProperty('balance')){
+                    this.addNewEmp(counter);
+                    //console.log(JSON.stringify(counter))
+                    if (i === 0)
+                    {
+                        this.setState({inputValue:counter.id+":"+counter.balance + " " +counter.currency});
+                    }
+
+                }
+                else
+                {
+                    let temp = JSON.parse(JSON.stringify(counter).slice(0, -1) +',"balance":"0"}');
+                    //console.log(temp)
+                    if (i === 0)
+                    {
+                        this.setState({inputValue:temp.id+":"+temp.balance + " " +temp.currency});
+                    }
+                    this.addNewEmp(temp);
+                }
                 //console.log(counter.id);
             }
 
         });
-        this.handleSubmitButton = this.handleSubmitButton.bind(this);
-        this.onChange = this.onChange.bind(this);
+
         this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
 
-    }
-
-    handleChange(e) {
-        const { name, value } = e.target;
-        this.setState({ [name]: value });
     }
 
     continue = e => {
@@ -79,12 +92,6 @@ class TransactionList extends React.Component {
     back = e => {
         this.setState({submitted:false});
         e.preventDefault();
-        this.props.prevStep();
-    };
-
-
-    changeStep = (event) => {
-        const { name } = event.target;
         this.props.backStep();
     };
 
@@ -103,29 +110,38 @@ class TransactionList extends React.Component {
         //console.log(event.target.value)
     }
 
-    onChange1 = (event) =>
-    {
-        this.setState({inputValue_to:event.target.value});
-        //console.log(event.target.value)
-    }
 
-    handleSubmitButton(e) {
+    handleSubmit = e => {
+        const { inputValue, amount } = this.state;
+        this.setState({submitted:true});
         e.preventDefault();
-        const {inputValue, inputValue_to, count} = this.state;
+
         let id = inputValue.split(':', 1);
-        let payee = inputValue_to.split(':', 1);
-        //this.props.create_transaction(id, payee, count)
+        this.props.fill_balance(id, amount);
+        this.back(e);
+    };
+
+    handleChange(e) {
+        const { name, value } = e.target;
+        console.log(name, value)
+        this.setState({ [name]: value });
     }
 
 
-        render() {
-            let empRecord = this.state.billsList.map((x)=>{
-                return(
-                    <option>
-                        {x.id+":"+x.accountFrom+":"+x.accountTo+":"+x.amount+":"+x.type+":"+x.time}
-                    </option>
-                )
-            })
+
+
+    render() {
+        console.log(this.state.amount)
+        const { currencies, limit, name } = this.state;
+        let empRecord = this.state.billsList.map((x)=>{
+            return(
+                <option>
+                    {x.id+":"+x.balance + " " +x.currency}
+                </option>
+            )
+        })
+
+
 
         const { registering  } = this.props;
         const { values, handleChange, valid_values } = this.props;
@@ -134,28 +150,32 @@ class TransactionList extends React.Component {
         //const handleSeriesChange = evt =>{
         //    const newSeries =
         //}
-            const { submitted, payee, count } = this.state;
+        const { submitted } = this.state;
 
         return (
-
             <div style={{flex: '1', height:'100%'}}>
-                <h2 className="text-center">Transaction List</h2>
+                <h2 className="text-center">Fill Balance</h2>
                 <div>
-
                     <br style={{fontSize:'24'}}></br>
                     <br style={{fontSize:'24'}}></br>
                     <div>
-                        <label style={{fontSize:'16px'}} htmlFor="middleName">Transaction List</label>
-
-                        <select style={{fontSize: '32px', height: '80px'}} name="payee"
-                            className="form-control form-control-lg" onChange={this.onChange}>
+                        <label style={{fontSize:'16px'}} htmlFor="middleName">Sum Of Payment</label>
+                        <select style={{fontSize: '32px', height: '80px'}} name="currencies" value={this.state.currencies} onChange={this.onChange}
+                                className="form-control form-control-lg">
                             {empRecord}
                         </select>
                     </div>
                     <br style={{fontSize:'24'}}></br>
                     <br style={{fontSize:'24'}}></br>
+                    <div>
+                        <label style={{fontSize:'16px'}} htmlFor="limit">amount</label>
+                        <input style={{fontSize:'20px',height:'300', padding:'13px 10px', width:'100%'}} type="text" className="form-control" name="amount" onChange={this.handleChange} />
+                    </div>
+                    <br style={{fontSize:'24'}}></br>
+                    <br style={{fontSize:'24'}}></br>
 
                     <div className="form-group text-center">
+                        <button style={{fontSize:'20px', width:'100%'}} className="btn btn-primary" disabled={!this.state.amount } onClick={this.handleSubmit}>Confirm</button>
                         <br style={{fontSize:'24'}}></br>
                         <br style={{fontSize:'24'}}></br>
                         <button style={{fontSize:'20px', width:'100%'}} className="btn btn-primary" onClick={this.props.backStep}>Back to Home</button>
@@ -169,15 +189,19 @@ class TransactionList extends React.Component {
     }
 }
 
+
+//function mapState(state) {
+//    const { user } = state.getallbill;
+    //const { user } = authentication;
+//    return { user };
+//}
+
 const actionCreators = {
-
-    get_transaction: userActions.get_transaction
-
+    fill_balance: userActions.fill_balance,
+    getAll_bill: userActions.getAll_bill,
     //deleteUser: userActions.delete
 }
 
-const connectedTransactionList = connect(null, actionCreators)(TransactionList);
-export { connectedTransactionList as TransactionList };
+const connectedFillBalance = connect(null, actionCreators)(FillBalance);
+export { connectedFillBalance as FillBalance };
 
-
-//export default OwnPayment;

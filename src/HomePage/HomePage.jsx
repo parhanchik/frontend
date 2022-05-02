@@ -10,6 +10,8 @@ import {ChooseOperation} from "./ChooseOperation";
 import TelegramPayment from './TelegramPayment';
 import {CreateBill} from "./CreateBill";
 import {TransactionList} from "./TransactionList";
+import {FillBalance} from "./FillBalance";
+
 
 class HomePage extends React.Component {
     componentDidMount() {
@@ -121,6 +123,17 @@ class HomePage extends React.Component {
             case 6:
                 return (
                     <CreateBill
+                        values={values}
+                        //changeStep={this.changeStep}
+                        backStep={this.backStep}
+                        //handleChange={this.handleChange}
+                        //values={values}
+                        //valid_values={valid_values}
+                    />
+                );
+            case 7:
+                return (
+                    <FillBalance
                         values={values}
                         //changeStep={this.changeStep}
                         backStep={this.backStep}

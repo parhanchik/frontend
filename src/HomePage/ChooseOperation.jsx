@@ -90,7 +90,6 @@ class ChooseOperation extends React.Component {
 
     addNewEmp=(bills)=>{
         this.setState(x=>({
-            inputValue:'',
             billsList:[
                 ...x.billsList,
                 bills
@@ -129,6 +128,9 @@ class ChooseOperation extends React.Component {
                 break;
             case 'createBill':
                 this.props.changeStep(6);
+                break;
+            case 'fillBalance':
+                this.props.changeStep(7);
                 break;
         }
 
@@ -189,6 +191,14 @@ class ChooseOperation extends React.Component {
                         </button>
                         <br style={{fontSize:'24'}}></br>
                         <br style={{fontSize:'24'}}></br>
+                        <button style={{fontSize:'20px', width:'100%'}} name='fillBalance' className="btn btn-primary" onClick={this.changeStep} >
+                            <img style={{mixBlendMode:'multiply'}} src="../../src/resources/telegram_icon.png" alt="my image" width={"10%"}  />
+                            <br/>
+                            Fill Balance
+                        </button>
+                        <br style={{fontSize:'24'}}></br>
+                        <br style={{fontSize:'24'}}></br>
+
                         <button style={{fontSize:'20px', width:'100%'}} name='history' className="btn btn-primary" onClick={this.changeStep} >Transaction history</button>
                         <br style={{fontSize:'24'}}></br>
                         <br style={{fontSize:'24'}}></br>

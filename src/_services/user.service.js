@@ -15,8 +15,35 @@ export const userService = {
     //get_bill,
     getAll_bill,
     create_transaction,
-    get_transaction
+    get_transaction,
+    fill_balance
 };
+
+
+function fill_balance(id, amount) {
+    let user = JSON.parse(localStorage.getItem('user'));
+
+    const body_string =
+        '{'+
+        '"accountID":'+id+',' +
+        '"amount":"'+amount+'"}'
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Auth-Token': user.token },
+
+        body:body_string
+        //body: JSON.stringify({ username, password, code })
+    };
+
+    return fetch(`${config.mainUrl}/v1/accounts/${id}/fill-balance`, requestOptions)
+        .then(handleResponse)
+   //     .then(account => {
+   //         //    // store user details and jwt token in local storage to keep user logged in between page refreshes
+   //         //localStorage.setItem('user', JSON.stringify(user));
+   //         return account;
+   //     })
+        ;
+}
 
 
 
