@@ -142,7 +142,7 @@ class PassportDetails extends React.Component {
                     </div>
                     <div className={'form-group' + (submitted && !values.issuedAt ? ' has-error' : '')}>
                         <label style={{fontSize:'16px'}} htmlFor="issuedAt">Issued At</label>
-                        <input style={{fontSize:'20px',height:'400', padding:'25px 10px'}} type="date" className="form-control" name="issuedAt" value={values.issuedAt} max={new Date().toISOString().split('T')[0]} onChange={handleChange('issuedAt')} />
+                        <input style={{fontSize:'20px',height:'400', padding:'25px 10px'}} type="date" onKeyDown={(e) => e.preventDefault()}   className="form-control" name="issuedAt" value={values.issuedAt} max={new Date().toISOString().split('T')[0]} onChange={handleChange('issuedAt')} />
                         {submitted && !values.issuedAt &&
                             <div className="help-block">Issued At is required</div>
                         }

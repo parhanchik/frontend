@@ -103,7 +103,7 @@ class PersonalDetails extends React.Component {
                     </div>
                     <div className={'form-group' + (submitted && !values.birthdate ? ' has-error' : '')}>
                         <label style={{fontSize:'16px'}} htmlFor="birthdate">Birthdate</label>
-                        <input style={{fontSize:'20px',height:'300', padding:'13px 10px', width:'100%'}} type="date" className="form-control" name="birthdate"  max={min_date} value={values.birthdate} onChange={handleChange('birthdate')} />
+                        <input style={{fontSize:'20px',height:'300', padding:'13px 10px', width:'100%'}} type="date" onKeyDown={(e) => e.preventDefault()}  className="form-control" name="birthdate"  max={min_date} value={values.birthdate} onChange={handleChange('birthdate')} />
                         {submitted && !values.birthdate &&
                             <div className="help-block">Birthdate is required</div>
                         }
