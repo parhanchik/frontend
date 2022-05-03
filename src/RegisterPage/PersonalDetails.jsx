@@ -14,6 +14,7 @@ class PersonalDetails extends React.Component {
 
         this.state = {
             submitted: false
+
         };
     }
 
@@ -54,6 +55,10 @@ class PersonalDetails extends React.Component {
         //    const newSeries =
         //}
         const { submitted } = this.state;
+        let min_date_ = new Date()
+        min_date_.setFullYear(min_date_.getFullYear() - 14)
+        console.log(min_date_)
+        const min_date = min_date_.toISOString().split('T')[0]
 
         return (
             <div style={{flex: '1', height:'100%'}}>
@@ -98,7 +103,7 @@ class PersonalDetails extends React.Component {
                     </div>
                     <div className={'form-group' + (submitted && !values.birthdate ? ' has-error' : '')}>
                         <label style={{fontSize:'16px'}} htmlFor="birthdate">Birthdate</label>
-                        <input style={{fontSize:'20px',height:'300', padding:'13px 10px', width:'100%'}} type="date" className="form-control" name="birthdate" max={new Date().toISOString().split('T')[0]} value={values.birthdate} onChange={handleChange('birthdate')} />
+                        <input style={{fontSize:'20px',height:'300', padding:'13px 10px', width:'100%'}} type="date" className="form-control" name="birthdate"  max={min_date} value={values.birthdate} onChange={handleChange('birthdate')} />
                         {submitted && !values.birthdate &&
                             <div className="help-block">Birthdate is required</div>
                         }
@@ -111,8 +116,8 @@ class PersonalDetails extends React.Component {
 
                             <button style={{fontSize:'20px', width:'100%'}} className="btn btn-primary" onClick={this.back}>Previous</button>
 
-                            <br/>
-                            <br/>
+                            <br style={{fontSize:'24'}}></br>
+                            <br style={{fontSize:'24'}}></br>
                             <Link style={{fontSize:'20px', width:'100%'}} to="/login">
                                 <button style={{background:'indianred',fontSize:'20px', width:'100%'}} className="btn btn-primary">
                                     Cancel

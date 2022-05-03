@@ -44,7 +44,7 @@ class App extends React.Component {
                                 <Route path="/login" component={LoginPage} />
                                 <Route path="/register" component={RegisterPage} />
                                 <Route path="/test" component={Signup} />
-                                <Redirect from="*" to="/" />
+                                <Redirect from="*" to="/login" />
                             </Switch>
                         </Router>
                     </div>

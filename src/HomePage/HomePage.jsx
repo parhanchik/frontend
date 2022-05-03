@@ -27,11 +27,12 @@ class HomePage extends React.Component {
         //const { dispatch } = this.props;
         this.state = {
             step:1,
-            id:""
+            id:''
         };
         this.changeStep = this.changeStep.bind(this);
         this.backStep = this.backStep.bind(this);
 
+        this.setID = this.setID.bind(this);
 
     }
 
@@ -51,8 +52,12 @@ class HomePage extends React.Component {
     };
 
 
-    handleDeleteUser(id) {
-        //return (e) => this.props.deleteUser(id);
+    setID(id_) {
+        console.log("12345"+id_)
+        //this.setState({ id:id_ });
+        this.setState({
+            id: id_
+        });
     }
 
     handleChange = input => e => {
@@ -63,6 +68,7 @@ class HomePage extends React.Component {
 
     render() {
         const { step, id } = this.state;
+        console.log(id)
         const values = {id};
         switch (step) {
             case 1:
@@ -72,6 +78,7 @@ class HomePage extends React.Component {
                         changeStep={this.changeStep}
                         handleChange={this.handleChange}
                         backStep={this.backStep}
+                        setID={this.setID}
                         //handleChange={this.handleChange}
                         //values={values}
                         //valid_values={valid_values}

@@ -132,11 +132,11 @@ function create_transaction(id, payee, amount) {
     function failure(error) { return { type: userConstants.CREATE_TRANSACTION_FAILURE, error } }
 }
 
-function get_transaction() {
+function get_transaction(id) {
     return dispatch => {
         dispatch(request({  }));
 
-        return userService.get_transaction()
+        return userService.get_transaction(id)
             .then(
                 transactions => {
                     dispatch(success(transactions));

@@ -108,7 +108,7 @@ class OwnPayment extends React.Component {
     back = e => {
         this.setState({submitted:false});
         e.preventDefault();
-        this.props.prevStep();
+        this.props.backStep();
     };
 
 
@@ -139,11 +139,19 @@ class OwnPayment extends React.Component {
     }
 
     handleSubmitButton(e) {
+        const syncWait = ms => {
+            const end = Date.now() + ms
+            while (Date.now() < end) continue
+        }
+
         e.preventDefault();
         const {inputValue, inputValue_to, count} = this.state;
         let id = inputValue.split(':', 1);
         let payee = inputValue_to.split(':', 1);
         this.props.create_transaction(id, payee, count)
+
+        syncWait(500)
+        this.back(e)
     }
 
 
@@ -187,7 +195,7 @@ class OwnPayment extends React.Component {
                     <div>
                         <label style={{fontSize:'16px'}} htmlFor="middleName">From Account</label>
 
-                        <select style={{fontSize: '32px', height: '80px'}} name="accounts"
+                        <select style={{fontSize: '32px', height: '80px', backgroundColor:'greenyellow'}} name="accounts"
                             className="form-control form-control-lg" onChange={this.onChange}>
                             {empRecord}
 
@@ -198,7 +206,7 @@ class OwnPayment extends React.Component {
                     <div>
                         <label style={{fontSize:'16px'}} htmlFor="middleName">To Account</label>
 
-                        <select style={{fontSize: '32px', height: '80px'}} name="payee"
+                        <select style={{fontSize: '32px', height: '80px', backgroundColor:'greenyellow'}} name="payee"
                             className="form-control form-control-lg" onChange={this.onChange}>
                             {empRecord1}
                     </select>
@@ -207,7 +215,7 @@ class OwnPayment extends React.Component {
                     <br style={{fontSize:'24'}}></br>
                     <div>
                         <label style={{fontSize:'16px'}} htmlFor="middleName">Sum Of Payment</label>
-                        <input style={{fontSize:'20px',height:'300', padding:'13px 10px', width:'100%'}} type="text" className="form-control" name="count" value={count} onInput={this.handleChange} />
+                        <input style={{fontSize:'32px',height:'80px', padding:'13px 10px', width:'100%'}} type="text" className="form-control" name="count" value={count} onInput={this.handleChange} />
                     </div>
                     <br style={{fontSize:'24'}}></br>
                     <br style={{fontSize:'24'}}></br>

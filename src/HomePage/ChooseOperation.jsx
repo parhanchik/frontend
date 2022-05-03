@@ -10,9 +10,11 @@ import {AiOutlineEye, AiOutlineEyeInvisible} from "react-icons/ai";
 class ChooseOperation extends React.Component {
 
 
+
     constructor(props) {
         super(props);
 
+        console.log("connected");
 
         this.state = {
             submitted: false,
@@ -52,6 +54,8 @@ class ChooseOperation extends React.Component {
                     if (i=== 0)
                     {
                         this.props.handleChange(counter.id);
+                        this.props.setID(counter.id.split(':', 1).toString())
+
                     }
                     //console.log(JSON.stringify(counter))
                 }
@@ -64,6 +68,8 @@ class ChooseOperation extends React.Component {
                     if (i=== 0)
                     {
                         this.props.handleChange(temp.id);
+                        this.props.setID(counter.id.split(':', 1).toString())
+
                     }
                     this.addNewEmp(temp);
                 }
@@ -85,7 +91,7 @@ class ChooseOperation extends React.Component {
     back = e => {
         this.setState({submitted:false});
         e.preventDefault();
-        this.props.prevStep();
+        this.props.backStep();
     };
 
     addNewEmp=(bills)=>{
@@ -107,6 +113,9 @@ class ChooseOperation extends React.Component {
     onChange = (event) =>
     {
         this.setState({inputValue:event.target.value});
+        console.log("1234 "+event.target.value.split(':', 1).toString())
+        this.props.setID(event.target.value.split(':', 1).toString())
+
         //console.log(event.target.value)
     }
 
@@ -140,7 +149,7 @@ class ChooseOperation extends React.Component {
     render() {
         let empRecord = this.state.billsList.map((x)=>{
             return(
-            <option>
+            <option style={{fontSize:'32px', height:'100px', backgroundColor:'greenyellow'}}>
                 {x.id+":"+x.balance + " " +x.currency}
             </option>
             )
@@ -162,47 +171,61 @@ class ChooseOperation extends React.Component {
                 <br/>
 
                 <div  style={{flex: '1', height:'100%'}}>
-                    <select style={{fontSize:'32px', height:'80px'}} name="accounts" className="form-control form-control-lg" onChange={this.onChange} >
+                    <select style={{fontSize:'32px', height:'80px', backgroundColor:'greenyellow'}} name="accounts" className="form-control form-control-lg" onChange={this.onChange} >
                         {empRecord}
                     </select>
                     <br style={{fontSize:'24'}}></br>
 
                     <div className="form-group text-center">
 
-                        <button style={{fontSize:'20px', width:'100%'}} name='ownTransfer' className="btn btn-primary" onClick={this.changeStep}>
-                            <img style={{mixBlendMode:'multiply'}} src="../../src/resources/own_payment.png" alt="my image" width={"10%"}  />
+                        <button style={{fontSize:'14px', width:'100%'}} name='ownTransfer' className="btn btn-primary" onClick={this.changeStep}>
+                            <img style={{mixBlendMode:'multiply', pointerEvents:'none'}} src="../../src/resources/own_payment.png" alt="my image" width={"10%"}  />
                             <br/>
-                            To Own Account
-                        </button>
-                        <br style={{fontSize:'24'}}></br>
-                        <br style={{fontSize:'24'}}></br>
-                        <button style={{fontSize:'20px', width:'100%'}} name='anotherTransfer' className="btn btn-primary" onClick={this.changeStep} >
-                            <img style={{mixBlendMode:'multiply'}} src="../../src/resources/another_payment.png" alt="my image" width={"10%"}  />
+                            To Own
                             <br/>
-                            To Another Account
+                            Account
                         </button>
                         <br style={{fontSize:'24'}}></br>
                         <br style={{fontSize:'24'}}></br>
 
-                        <button style={{fontSize:'20px', width:'100%'}} name='tgTransfer' className="btn btn-primary" onClick={this.changeStep} >
-                            <img style={{mixBlendMode:'multiply'}} src="../../src/resources/telegram_icon.png" alt="my image" width={"10%"}  />
+                        <button style={{fontSize:'14px', width:'100%'}} name='anotherTransfer' className="btn btn-primary" onClick={this.changeStep} >
+                            <img style={{mixBlendMode:'multiply', pointerEvents:'none'}} src="../../src/resources/another_payment.png" alt="my image" width={"10%"}  />
                             <br/>
-                            Telegram Bot
+                            To Another
+                            <br/>
+                            Account
                         </button>
                         <br style={{fontSize:'24'}}></br>
                         <br style={{fontSize:'24'}}></br>
-                        <button style={{fontSize:'20px', width:'100%'}} name='fillBalance' className="btn btn-primary" onClick={this.changeStep} >
-                            <img style={{mixBlendMode:'multiply'}} src="../../src/resources/telegram_icon.png" alt="my image" width={"10%"}  />
+
+                        <button style={{fontSize:'14px', width:'100%'}} name='tgTransfer' className="btn btn-primary" onClick={this.changeStep} >
+                            <img style={{mixBlendMode:'multiply', pointerEvents:'none'}} src="../../src/resources/telegram_icon.png" alt="my image" width={"10%"}  />
+                            <br/>
+                            Telegram
+                            <br/>
+                            Bot
+                        </button>
+                        <br style={{fontSize:'24'}}></br>
+                        <br style={{fontSize:'24'}}></br>
+                        <button style={{fontSize:'14px', width:'100%'}} name='fillBalance' className="btn btn-primary" onClick={this.changeStep} >
+                            <img style={{mixBlendMode:'multiply', pointerEvents:'none'}} src="../../src/resources/fill_balance.png" alt="my image" width={"10%"}  />
                             <br/>
                             Fill Balance
                         </button>
                         <br style={{fontSize:'24'}}></br>
                         <br style={{fontSize:'24'}}></br>
 
-                        <button style={{fontSize:'20px', width:'100%'}} name='history' className="btn btn-primary" onClick={this.changeStep} >Transaction history</button>
+                        <button style={{fontSize:'14px', width:'100%'}} name='history' className="btn btn-primary" onClick={this.changeStep} >
+                            <img style={{mixBlendMode:'multiply', pointerEvents:'none'}} src="../../src/resources/history.png" alt="my image" width={"10%"}  />
+                            <br/>
+                            Transaction history</button>
                         <br style={{fontSize:'24'}}></br>
                         <br style={{fontSize:'24'}}></br>
-                        <button style={{fontSize:'20px', width:'100%'}} name='createBill' className="btn btn-primary" onClick={this.changeStep} >Create Bill</button>
+                        <button style={{fontSize:'14px', width:'100%'}} name='createBill' className="btn btn-primary" onClick={this.changeStep} >
+                            <img style={{mixBlendMode:'multiply', pointerEvents:'none'}} src="../../src/resources/create_account.png" alt="my image" width={"10%"}  />
+                            <br/>
+
+                            Create Bill</button>
                         <br style={{fontSize:'24'}}></br>
                         <br style={{fontSize:'24'}}></br>
                         <button style={{background:'indianred',fontSize:'20px', width:'100%'}} name='logout' onClick={this.logoutHandler} color={"red"} className="btn btn-primary" >Logout</button>

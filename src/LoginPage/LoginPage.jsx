@@ -140,10 +140,10 @@ class LoginPage extends React.Component {
                             <div className="help-block">Username is required</div>
                         }
                         {usernotfound &&
-                            <div className="help-block">Username with this e-mail not exist</div>
+                            <div className="help-block">Incorrect e-mail or password. Try again</div>
                         }
                     </div>
-                    <div className={'form-group' + (submitted && !password ? ' has-error' : '')} >
+                    <div className={'form-group' + (submitted && !password || usernotfound ? ' has-error' : '')} >
                         <label style={{fontSize:'16px'}} htmlFor="password">Password</label>
                         <div>
                         <input style={{fontSize:'20px',height:'300', padding:'13px 10px', paddingRight:'50px', width:'100%'}} className="password-field" autoComplete="new-password" readOnly={this.state.disabled ? "" : "readonly"} type={isPasswordShown ? "text" : "password"} name="password" value={password} onInput={this.handleChange} />

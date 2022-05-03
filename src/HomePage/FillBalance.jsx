@@ -160,7 +160,7 @@ class FillBalance extends React.Component {
                     <br style={{fontSize:'24'}}></br>
                     <div>
                         <label style={{fontSize:'16px'}} htmlFor="middleName">Sum Of Payment</label>
-                        <select style={{fontSize: '32px', height: '80px'}} name="currencies" value={this.state.currencies} onChange={this.onChange}
+                        <select style={{fontSize: '32px', height: '80px', backgroundColor:'greenyellow'}} name="currencies" value={this.state.currencies} onChange={this.onChange}
                                 className="form-control form-control-lg">
                             {empRecord}
                         </select>
@@ -169,7 +169,7 @@ class FillBalance extends React.Component {
                     <br style={{fontSize:'24'}}></br>
                     <div>
                         <label style={{fontSize:'16px'}} htmlFor="limit">amount</label>
-                        <input style={{fontSize:'20px',height:'300', padding:'13px 10px', width:'100%'}} type="text" className="form-control" name="amount" onChange={this.handleChange} />
+                        <input style={{fontSize:'32px',height:'80px', padding:'13px 10px', width:'100%'}} type="text" className="form-control" name="amount" onChange={this.handleChange} />
                     </div>
                     <br style={{fontSize:'24'}}></br>
                     <br style={{fontSize:'24'}}></br>

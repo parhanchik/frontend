@@ -102,8 +102,8 @@ class UserDetails extends React.Component {
 
                     <div className="form-group text-center">
                         <button style={{fontSize:'20px', width:'100%'}} className="btn btn-primary" onClick={this.continue}>Next</button>
-                            <br/>
-                        <br/>
+                        <br style={{fontSize:'24'}}></br>
+                        <br style={{fontSize:'24'}}></br>
                             <Link style={{fontSize:'20px', width:'100%'}} to="/login">
                                 <button style={{background:'indianred',fontSize:'20px', width:'100%'}} className="btn btn-primary">
                                 Cancel

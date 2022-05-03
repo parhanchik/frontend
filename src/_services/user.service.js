@@ -145,7 +145,7 @@ function create_transaction(id, payee, amount) {
         ;
 }
 
-function get_transaction() {
+function get_transaction(id) {
     let user = JSON.parse(localStorage.getItem('user'));
 
     const requestOptions = {
@@ -154,7 +154,7 @@ function get_transaction() {
         //body: JSON.stringify({ username, password, code })
     };
 
-    return fetch(`${config.mainUrl}/v1/transactions`, requestOptions)
+    return fetch(`${config.mainUrl}/v1/${id}/transactions`, requestOptions)
         .then(handleResponse)
         .then(account => {
             //    // store user details and jwt token in local storage to keep user logged in between page refreshes

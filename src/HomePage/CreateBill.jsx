@@ -102,7 +102,7 @@ class CreateBill extends React.Component {
                     <br style={{fontSize:'24'}}></br>
                     <div>
                         <label style={{fontSize:'16px'}} htmlFor="middleName">Sum Of Payment</label>
-                        <select style={{fontSize: '32px', height: '80px'}} name="currencies" value={this.state.currencies} onChange={this.handleChange}
+                        <select style={{fontSize: '32px', height: '80px', backgroundColor:'greenyellow'}} name="currencies" value={this.state.currencies} onChange={this.handleChange}
                                 className="form-control form-control-lg">
                             <option value="SELECT">SELECT</option>
                             <option value="RUBLES">RUBLES</option>
@@ -114,14 +114,16 @@ class CreateBill extends React.Component {
                     <br style={{fontSize:'24'}}></br>
                     <div>
                         <label style={{fontSize:'16px'}} htmlFor="limit">Limit</label>
-                        <input style={{fontSize:'20px',height:'300', padding:'13px 10px', width:'100%'}} type="text" className="form-control" name="limit" onChange={this.handleChange} />
+                        <input style={{fontSize:'32px',height:'80px', padding:'13px 10px', width:'100%'}} type="text" className="form-control" name="limit" onChange={this.handleChange} />
                     </div>
                     <br style={{fontSize:'24'}}></br>
                     <br style={{fontSize:'24'}}></br>
                     <div>
                         <label style={{fontSize:'16px'}} htmlFor="name">Name</label>
-                        <input style={{fontSize:'20px',height:'300', padding:'13px 10px', width:'100%'}} type="text" className="form-control" name="name" onChange={this.handleChange} />
+                        <input style={{fontSize:'32px',height:'80px', padding:'13px 10px', width:'100%'}} type="text" className="form-control" name="name" onChange={this.handleChange} />
                     </div>
+                    <br style={{fontSize:'24'}}></br>
+                    <br style={{fontSize:'24'}}></br>
 
                     <div className="form-group text-center">
                         <button style={{fontSize:'20px', width:'100%'}} className="btn btn-primary" disabled={!name || !limit || currencies==='SELECT'} onClick={this.handleSubmit}>Confirm</button>

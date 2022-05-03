@@ -22,34 +22,25 @@ class TransactionList extends React.Component {
             ]
 
         };
-        this.props.get_transaction().then(result => {
+
+        this.props.get_transaction(this.props.values.id).then(result => {
             let str = JSON.stringify(result);
-            console.log(str)
-            let ret = str.replace('{"items":{', '');
-            ret.slice(0, -1);
+            console.log("000"+str)
+            //let ret = str.replace('{"transactions":', '');
+            let ret = str
+            //ret = ret.slice(0, -1);
+            console.log("000"+ret)
 
             const obj = JSON.parse(ret)
-            console.log(obj.accounts);
-            obj.accounts.sort(function(a, b) {
+            console.log(obj.transactions);
+            obj.transactions.sort(function(a, b) {
                 return (a.id) - (b.id);
             });
-            for (var i = 0; i < obj.accounts.length; i++) {
-                let counter = obj.accounts[i];
-                switch (counter.currency) {
-                    case 'CURRENCY_DOLLAR_US':
-                        counter.currency = '$';
-                        break
-                    case 'CURRENCY_EURO':
-                        counter.currency = '€';
-                        break
-                    case 'CURRENCY_RUB':
-                        counter.currency = '₽';
-                        break
-
-                }
+            for (var i = 0; i < obj.transactions.length; i++) {
+                let counter = obj.transactions[i];
                 //if(counter.hasOwnProperty('balance')){
                     this.addNewEmp(counter);
-                        this.setState({inputValue:counter.id+":"+counter.balance + " " +counter.currency});
+                        //this.setState({inputValue:counter.id+":"+counter.balance + " " +counter.currency});
                   //console.log(JSON.stringify(counter))
 
                 //console.log(counter.id);
@@ -79,7 +70,7 @@ class TransactionList extends React.Component {
     back = e => {
         this.setState({submitted:false});
         e.preventDefault();
-        this.props.prevStep();
+        this.props.backStep();
     };
 
 
@@ -121,9 +112,9 @@ class TransactionList extends React.Component {
         render() {
             let empRecord = this.state.billsList.map((x)=>{
                 return(
-                    <option>
-                        {x.id+":"+x.accountFrom+":"+x.accountTo+":"+x.amount+":"+x.type+":"+x.time}
-                    </option>
+                    <li>
+                        {x.id+":"+x.accountFrom+":"+x.accountTo+":"+x.amount+":"+x.type+":"+x.time+":"+x.error}
+                    </li>
                 )
             })
 
@@ -147,10 +138,10 @@ class TransactionList extends React.Component {
                     <div>
                         <label style={{fontSize:'16px'}} htmlFor="middleName">Transaction List</label>
 
-                        <select style={{fontSize: '32px', height: '80px'}} name="payee"
-                            className="form-control form-control-lg" onChange={this.onChange}>
+                        <ul style={{fontSize: '32px', height: '80px'}} name="payee"
+                             >
                             {empRecord}
-                        </select>
+                        </ul>
                     </div>
                     <br style={{fontSize:'24'}}></br>
                     <br style={{fontSize:'24'}}></br>
